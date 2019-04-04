@@ -76,6 +76,9 @@ function gameTick (){
       player[i].actionState = specials[CHARNAMES[player[i].charID]][actionID];
     }
 
+    //DEAD
+    player[i].dead = (actionID >= 0x000 && actionID <= 0x003);
+
   }
 
   setTimeout(gameTick, 16);

@@ -1,4 +1,5 @@
 var charScales = [0.49,0.24,0.35,0.47,0.485];
+var miniScales = [0.32,0.168,0.3,0.3,0.3];
 
 
 function physicsObject(pos, face) {
@@ -109,6 +110,8 @@ function playerObject(character, pos, face) {
   this.prevActionState = "";
   this.timer = 0;
   this.charScale = charScales[this.charID];
+  this.miniScale = miniScales[this.charID];
+  this.dead = false;
   //this.charAttributes = chars[character].attributes;
   //this.charHitboxes = chars[character].hitboxes;
   this.showLedgeGrabBox = false;

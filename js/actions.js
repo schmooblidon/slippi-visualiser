@@ -4,7 +4,7 @@ actions = {
 0x001 :   "DEADLEFT", //DeadLeft    Standard leftward death
 0x002 :   "DEADRIGHT", //DeadRight    Standard rightward death
 0x003 :   "DEADUP", //DeadUp    Upward death used in 1P "Team Kirby", etc.
-0x004 :   "DEADUP", //DeadUpStar    Standard Star KO
+0x004 :   "DAMAGEFALL", //DeadUpStar    Standard Star KO
 0x005 :   "DEADUP", //DeadUpStarIce    Star KO while encased in ice (Freezie)
 0x006 :   "DEADUP", //DeadUpFall    64-esque front fall, unused, I believe
 0x007 :   "DEADUP", //DeadUpFallHitCamera
@@ -18,7 +18,7 @@ actions = {
 0x00F :   "WALK", //WalkSlow
 0x010 :   "WALK", //WalkMiddle
 0x011 :   "WALK", //WalkFast
-0x012 :   "TILTTURN", //Turn
+0x012 :   "SMASHTURN", //Turn
 0x013 :   "RUNTURN", //TurnRun
 0x014 :   "DASH", //Dash
 0x015 :   "RUN", //Run
