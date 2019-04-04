@@ -12,25 +12,6 @@ function setVsStage(val) {
   activeStage = vsstages[stageMapping[val]];
 }
 
-
-const targetStageMapping = {
-  0: "targetstage1",
-  1: "targetstage2",
-  2: "targetstage3",
-  3: "targetstage4",
-  4: "targetstage5",
-  5: "targetstage6",
-  6: "targetstage7",
-  7: "targetstage8",
-  8: "targetstage9",
-  9: "targetstage10"
-};
-
-function setActiveStageTarget(val) {
-  activeStage = tstages[targetStageMapping[val]];
-}
-
-
 let activeStage = {
   name : "battlefield",
   box: [],
@@ -59,8 +40,6 @@ let activeStage = {
   movingPlatforms: function () {
   }
 };
-
-
 
 function getActiveStage() {
   return activeStage;
