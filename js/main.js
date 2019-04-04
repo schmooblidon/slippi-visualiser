@@ -35,11 +35,16 @@ let currentFrame = 0;
 
 let startTimer = 1.5;
 
+let matchTimer = 480;
+
 function gameTick (){
   currentFrameIdx++;
 
   if (currentFrameIdx < 0) {
     startTimer -= 0.01666667;
+  }
+  else {
+    matchTimer -= 0.01666667;
   }
 
   currentFrame = game.frames[currentFrameIdx];
@@ -47,6 +52,11 @@ function gameTick (){
   for (var i=0;i<playerAmount;i++) {
     var port = portNumbers[i];
     var state = currentFrame.players[port].post;
+
+    if (player[i].stocks != state.stocksRemaining) lostStockQueue.push([i, state.stocksRemaining, 0]);
+    if (player[i].percent != state.percent) percentShake(Math.abs(state.percent - player[i].percent)*8, i);
+    player[i].stocks = state.stocksRemaining;
+    player[i].percent = state.percent;
 
     player[i].phys.pos.x = state.positionX;
     player[i].phys.pos.y = state.positionY;
@@ -99,6 +109,7 @@ function renderTick (){
     for (var i = 0; i < playerAmount; i++) {
       renderPlayer(i);
     }
+    renderOverlay(true, true);
   }
 }
 

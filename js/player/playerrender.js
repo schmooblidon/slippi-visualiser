@@ -135,6 +135,7 @@ function renderPlayer(i) {
         if (hasTag[i]) {
             fg2.fillStyle = makeColour(0, 0, 0, 0.5);
             fg2.strokeStyle = palettes[pPal[i]][0];
+            fg2.lineWidth = 1;
             var size = 10 * tagText[i].length
             fg2.fillRect(temX - size / 2, temY - 130 * (activeStage.scale / 4.5), size, 20);
             fg2.strokeRect(temX - size / 2, temY - 130 * (activeStage.scale / 4.5), size, 20);
@@ -155,6 +156,7 @@ function renderPlayer(i) {
     if (player[i].actionState == "REBIRTH" || player[i].actionState == "REBIRTHWAIT") {
         fg2.fillStyle = palettes[pPal[i]][1];
         fg2.strokeStyle = palettes[pPal[i]][0];
+        fg2.lineWidth = 1;
         fg2.beginPath();
         fg2.moveTo(temX + 18 * (activeStage.scale / 4.5), temY + 13.5 * (activeStage.scale / 4.5));
         fg2.lineTo(temX + 31.5 * (activeStage.scale / 4.5), temY);
