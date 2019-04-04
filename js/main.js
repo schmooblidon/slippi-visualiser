@@ -33,27 +33,84 @@ let playing = false;
 let currentFrameIdx = -123;
 let currentFrame = 0;
 
-let startTimer = 1.5;
+let startTimer = 2.05;
 
 let matchTimer = 480;
 
 let finished = false;
 
+let paused = false;
+
 function finishGame() {
   finished = true;
-  playing = false;
   gameFinishScreen();
 }
 
-function gameTick (){
-  if (!playing || finished) return;
-  currentFrameIdx++;
+function restart() {
+  currentFrameIdx = -123;
+  paused = false;
+  finished = false;
+  playing = true;
+}
 
+function togglePause() {
+  paused ^= true;
+}
+
+function frameForward() {
+  paused = true;
+  if (!finished) {
+    currentFrameIdx++;
+    updateState();
+    renderState();
+  }
+}
+
+function frameBackward() {
+  paused = true;
+  finished = false;
+  currentFrameIdx = Math.max(-123, currentFrameIdx-1);
+  updateState();
+  renderState();
+}
+
+function gameTick (){
+  setTimeout(gameTick, 16);
+  if (!playing || finished || paused) return;
+  currentFrameIdx++;
+  updateState();
+}
+
+function clearScreen (){
+  bg2.clearRect(0, 0, layers.BG2.width, layers.BG2.height);
+  fg2.clearRect(0, 0, layers.FG2.width, layers.FG2.height);
+  ui.clearRect(0, 0, layers.UI.width, layers.UI.height);
+}
+
+function renderTick (){
+  window.requestAnimationFrame(renderTick);
+  if (!playing || finished) return;
+  renderState();
+}
+
+function renderState() {
+  clearScreen();
+  drawBackground();
+  drawStage();
+  for (var i = 0; i < playerAmount; i++) {
+    renderPlayer(i);
+  }
+  renderOverlay(true, true);
+}
+
+function updateState() {
   if (currentFrameIdx < 0) {
-    startTimer -= 0.01666667;
+    startTimer = Math.abs(currentFrameIdx) * 0.01666667;
+    matchTimer = 480;
   }
   else {
-    matchTimer -= 0.01666667;
+    startTimer = 0;
+    matchTimer = 480 - currentFrameIdx * 0.01666667;
   }
 
   if (matchTimer <= 0) { finishGame(); return; }
@@ -105,26 +162,48 @@ function gameTick (){
     player[i].dead = (actionID >= 0x000 && actionID <= 0x003);
 
   }
-
-  setTimeout(gameTick, 16);
 }
 
-function clearScreen (){
-  bg2.clearRect(0, 0, layers.BG2.width, layers.BG2.height);
-  fg2.clearRect(0, 0, layers.FG2.width, layers.FG2.height);
-  ui.clearRect(0, 0, layers.UI.width, layers.UI.height);
-}
-
-function renderTick (){
-  window.requestAnimationFrame(renderTick);
-  if (!playing || finished) return;
-  clearScreen();
-  drawBackground();
-  drawStage();
-  for (var i = 0; i < playerAmount; i++) {
-    renderPlayer(i);
+// arrows only detect on keydown
+$(document).keydown(function(e) {
+  // RIGHT
+  if (e.which == 39) {
+    frameForward();
   }
-  renderOverlay(true, true);
+  // LEFT
+  if (e.which == 37) {
+    frameBackward();
+  }
+});
+
+$(document).keypress(function(e) {
+  console.log(e.which);
+  // ENTER
+  if (e.which == 13) {
+    togglePause();
+  }
+  // D
+  if (e.which == 68 || e.which == 100) {
+    frameForward();
+  }
+  // A
+  if (e.which == 65 || e.which == 97) {
+    frameBackward();
+  }
+  // R
+  if (e.which == 82 || e.which == 114) {
+    restart();
+  }
+});
+
+function setupElementInteractions() {
+  $( "#controls" )
+  .mouseover(function() {
+    $( this ).css('opacity', '0.9');
+  })
+  .mouseout(function() {
+    $( this ).css('opacity', '0.15');
+  });
 }
 
 function start (){
@@ -138,6 +217,7 @@ function start (){
   
   setupFullscreenChange();
   resize();
+  setupElementInteractions();
 
   drawBackgroundInit();
   drawStageInit();

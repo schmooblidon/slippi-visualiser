@@ -341,6 +341,10 @@ actions = {
 0x152 :   CapturewaitCrazyhand
 0x153 :   ThrownCrazyhand
 0x154 :   BarrelCannonWait*/
+
+// APPARENTLY THE FOLLOWING ARE ONLY SUBACTIONS
+/*
+
 0x155 :   "WAIT", //Wait1
 0x156 :   "WAIT", //Wait2
 0x157 :   "WAIT", //Wait3
@@ -352,19 +356,19 @@ actions = {
 0x15D :   "GUARD", //GuardDamage
 0x15E :   "ESCAPEN", //EscapeN
 0x15F :   "FORWARDSMASH", //AttackS4Hold
-/*0x160 :   HeavyWalk1
+0x160 :   HeavyWalk1
 0x161 :   HeavyWalk2
 0x162 :   ItemHammerWait
 0x163 :   ItemHammerMove
 0x164 :  ItemBlind
-0x165 :   DamageElec*/
+0x165 :   DamageElec
 0x166 :   "FURASLEEPSTART", //FuraSleepStart
 0x167 :   "FURASLEEPLOOP", //FuraSleepLoop
 0x168 :   "FURASLEEPEND", //FuraSleepEnd
 0x169 :   "WALLDAMAGE", //WallDamage
 0x16A :   "CLIFFWAIT", //CliffWait1
 0x16B :   "CLIFFWAIT", //CliffWait2
-/*0x16C :   SlipDown
+0x16C :   SlipDown
 0x16D :   Slip
 0x16E :   SlipTurn
 0x16F :   SlipDash
@@ -372,9 +376,9 @@ actions = {
 0x171 :   SlipStand
 0x172 :   SlipAttack
 0x173 :   SlipEscapeF
-0x174 :   SlipEscapeB*/
+0x174 :   SlipEscapeB
 0x175 :   "APPEAL", //AppealS
-/*0x176 :   Zitabata
+0x176 :   Zitabata
 0x177 :   CaptureKoopaHit
 0x178 :   ThrownKoopaEndF
 0x179 :   ThrownKoopaEndB
@@ -382,8 +386,8 @@ actions = {
 0x17B :   ThrownKoopaAirEndF
 0x17C :   ThrownKoopaAirEndB
 0x17D :   ThrownKirbyDrinkSShot
-0x17E :   ThrownKirbySpitSShot*/
-
+0x17E :   ThrownKirbySpitSShot
+*/
 };
 
 specials = {

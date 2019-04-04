@@ -4,6 +4,26 @@ body {
   margin:0;
 }
 
+#slippi_logo {
+  position:absolute;
+  top:10px;
+  left:10px;
+}
+
+#controls {
+  position:absolute;
+  bottom:0px;
+  left:0px;
+  width:300px;
+  height:125px;
+  background-color:rgba(25,25,25,0.3);
+  color:#bbb;
+  z-index:100;
+  opacity:0.15;
+  padding:10px;
+  margin:5px;
+}
+
 #loadScreen {
   position:fixed;
   width: 100%;

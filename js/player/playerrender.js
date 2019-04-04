@@ -109,7 +109,7 @@ function renderPlayer(i) {
         
         if (player[i].actionState == "ENTRANCE") {
             drawArrayPathCompress(fg2, col, face, temX, temY, model, player[i].charScale * (activeStage.scale /
-                4.5), Math.min(player[i].charScale, player[i].charScale * (1.5 -
+                4.5), Math.min(player[i].charScale, player[i].charScale * (2.05 -
                     startTimer)) * (activeStage.scale / 4.5), player[i].rotation, player[i].rotationPoint.x, player[i].rotationPoint
                 .y);
         } else {
