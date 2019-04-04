@@ -17,7 +17,7 @@ for (let i = 0; i < 5; i++) {
   circleSize[i] = i * 40;
 }
 let ang = 0;
-let backgroundType = 0;
+let backgroundType = 1;
 
 const randall = [new Image(),new Image(),new Image()];
 randall[0].src = "assets/stage/randall1.png";
