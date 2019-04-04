@@ -37,7 +37,16 @@ let startTimer = 1.5;
 
 let matchTimer = 480;
 
+let finished = false;
+
+function finishGame() {
+  finished = true;
+  playing = false;
+  gameFinishScreen();
+}
+
 function gameTick (){
+  if (!playing || finished) return;
   currentFrameIdx++;
 
   if (currentFrameIdx < 0) {
@@ -47,7 +56,11 @@ function gameTick (){
     matchTimer -= 0.01666667;
   }
 
+  if (matchTimer <= 0) { finishGame(); return; }
+
   currentFrame = game.frames[currentFrameIdx];
+
+  if (currentFrame == null) { finishGame(); return ; }
 
   for (var i=0;i<playerAmount;i++) {
     var port = portNumbers[i];
@@ -55,7 +68,9 @@ function gameTick (){
 
     if (player[i].stocks != state.stocksRemaining) lostStockQueue.push([i, state.stocksRemaining, 0]);
     if (player[i].percent != state.percent) percentShake(Math.abs(state.percent - player[i].percent)*8, i);
+
     player[i].stocks = state.stocksRemaining;
+    //if (player[i].stocks <= 0) { finishGame(); return; }
     player[i].percent = state.percent;
 
     player[i].phys.pos.x = state.positionX;
@@ -102,15 +117,14 @@ function clearScreen (){
 
 function renderTick (){
   window.requestAnimationFrame(renderTick);
-  if (playing) {
-    clearScreen();
-    drawBackground();
-    drawStage();
-    for (var i = 0; i < playerAmount; i++) {
-      renderPlayer(i);
-    }
-    renderOverlay(true, true);
+  if (!playing || finished) return;
+  clearScreen();
+  drawBackground();
+  drawStage();
+  for (var i = 0; i < playerAmount; i++) {
+    renderPlayer(i);
   }
+  renderOverlay(true, true);
 }
 
 function start (){

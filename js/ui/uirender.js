@@ -91,3 +91,39 @@ function percentShake (kb,i){
   setTimeout(function(){player[i].percentShake = new Vec2D(-kb*0.05*Math.random(),-kb*0.05*Math.random())},60);
   setTimeout(function(){player[i].percentShake = new Vec2D(0,0)},80);
 }
+
+function gameFinishScreen() {
+  fg2.save();
+  fg2.textAlign = "center";
+  var text = "Game!";
+  var size = 300;
+  var textScale = 1;
+  var textGrad = fg2.createLinearGradient(0, 200, 0, 520);
+  if (matchTimer <= 0) {
+    text = "Time!";
+    //sounds.time.play();
+    textGrad.addColorStop(0, "black");
+    textGrad.addColorStop(0.5, "black");
+    textGrad.addColorStop(0.7, "rgb(21, 51, 180)");
+    textGrad.addColorStop(1, "rgb(71, 94, 250)");
+  } else {
+    //sounds.game.play();
+    textGrad.addColorStop(0, "black");
+    textGrad.addColorStop(0.4, "black");
+    textGrad.addColorStop(0.7, "rgb(167, 27, 40)");
+    textGrad.addColorStop(1, "rgb(255, 31, 52)");
+  }
+  fg2.scale(1, textScale);
+  fg2.fillStyle = textGrad;
+  fg2.lineWidth = 40;
+  fg2.strokeStyle = "black";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale);
+  fg2.lineWidth = 20;
+  fg2.strokeStyle = "white";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale);
+  fg2.font = "900 " + size + "px Arial";
+  fg2.fillText(text, 600, 470 / textScale);
+  fg2.restore();
+}
