@@ -1,4 +1,4 @@
-function Vec2D(x, y) {
+export function Vec2D(x, y) {
   this.x = x;
   this.y = y;
   this.dot = function(vector) {

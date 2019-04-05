@@ -1,16 +1,24 @@
-const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206, 111, ","rgb(244, 68, 68)","rgba(255, 225, 167, "],
+import { player, CHARIDS, startTimer } from "../main";
+import { activeStage } from "../stages/activeStage";
+import { fg2, drawArrayPathCompress } from "./draw";
+import { makeColour } from "../utils/makeColour";
+import { Vec2D } from "../utils/Vec2D";
+
+export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206, 111, ","rgb(244, 68, 68)","rgba(255, 225, 167, "],
 ["rgb(95, 216, 84)","rgb(184, 253, 154)","rgba(252, 95, 95, ","rgb(255, 182, 96)","rgba(254, 141, 141, "],
 ["rgb(5, 195, 255)","rgb(121, 223, 255)","rgba(218, 96, 254, ","rgb(231, 134, 255)","rgba(230, 144, 255, "],
 ["rgb(255, 187, 70)","rgb(248, 255, 122)","rgba(80, 182, 255, ","rgb(255, 142, 70)","rgba(139, 203, 249, "],
 ["rgb(177, 89, 255)","rgb(203, 144, 255)","rgba(144, 255, 110, ","rgb(247, 126, 250)","rgba(190, 255, 170, "],
 ["rgb(182, 131, 70)","rgb(252, 194, 126)","rgba(47, 186, 123, ","rgb(255, 112, 66)","rgba(111, 214, 168, "],
 ["rgb(232, 232, 208)","rgb(255, 255, 255)","rgba(244, 255, 112, ","rgb(191, 119, 119)","rgba(255, 255, 200, "]];
-const pPal = [0,1,2,3];
+export const pPal = [0,1,2,3];
 
 const hasTag = [true,true,false,false];
 const tagText = ["SFAT","ZAIN","",""];
 
-function renderPlayer(i) {
+const twoPi = Math.PI * 2;
+
+export function renderPlayer(i) {
     if (player[i].dead) return;
     var temX = (player[i].phys.pos.x * activeStage.scale) + activeStage.offset[0];
     var temY = (player[i].phys.pos.y * -activeStage.scale) + activeStage.offset[1];

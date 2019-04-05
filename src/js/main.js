@@ -1,8 +1,16 @@
+import { playerObject } from "./player/player";
+import { renderPlayer } from "./draw/draw_player";
+import { Vec2D } from "./utils/Vec2D";
+import { drawBackground, drawStage, drawBackgroundInit, drawStageInit } from "./draw/draw_stage";
+import { bg1, bg2, fg1, fg2, ui, setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
+import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
+import { actions, specials } from "./actions";
+
 
 const portNumbers = [0, 3, -1, -1];
 
 // BUILD PLAYERS
-const CHARIDS = {
+export const CHARIDS = {
     MARTH_ID : 0,
     PUFF_ID : 1,
     FOX_ID : 2,
@@ -10,7 +18,7 @@ const CHARIDS = {
     FALCON_ID : 4
 };
 
-const CHARNAMES = {
+export const CHARNAMES = {
   0 : "MARTH",
   1 : "PUFF",
   2 : "FOX",
@@ -19,23 +27,23 @@ const CHARNAMES = {
 };
 
 
-player = [
+export let player = [
   new playerObject(CHARIDS.FOX_ID, new Vec2D(0,0), 1),
   new playerObject(CHARIDS.MARTH_ID, new Vec2D(0,0), 1),
   0,
   0
 ];
 
-const playerAmount = 2;
+export const playerAmount = 2;
 
 let playing = false;
 
 let currentFrameIdx = -123;
 let currentFrame = 0;
 
-let startTimer = 2.05;
+export let startTimer = 2.05;
 
-let matchTimer = 480;
+export let matchTimer = 480;
 
 let finished = false;
 
@@ -81,13 +89,7 @@ function gameTick (){
   updateState();
 }
 
-function clearScreen (){
-  bg2.clearRect(0, 0, layers.BG2.width, layers.BG2.height);
-  fg2.clearRect(0, 0, layers.FG2.width, layers.FG2.height);
-  ui.clearRect(0, 0, layers.UI.width, layers.UI.height);
-}
-
-function renderTick (){
+function renderTick () {
   window.requestAnimationFrame(renderTick);
   if (!playing || finished) return;
   renderState();
@@ -196,30 +198,23 @@ $(document).keypress(function(e) {
   }
 });
 
-function setupElementInteractions() {
-  $( "#controls" )
-  .mouseover(function() {
-    $( this ).css('opacity', '0.9');
-  })
-  .mouseout(function() {
-    $( this ).css('opacity', '0.15');
-  });
-}
-
 function start (){
   for (var i=0;i<playerAmount;i++){
     player[i].phys.face = 1;
     player[i].actionState = "WAIT";
   }
   setupLayers();
-  gameTick();
-  renderTick();
-  
+
   setupFullscreenChange();
   resize();
   setupElementInteractions();
 
   drawBackgroundInit();
   drawStageInit();
+
+  gameTick();
+  renderTick();
+
+  restart();
 }
 window.start = start;

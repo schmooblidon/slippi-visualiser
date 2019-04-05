@@ -1,6 +1,12 @@
-let lostStockQueue = [];
+import { ui, fg2 } from "./draw";
+import { player, playerAmount, matchTimer } from "../main";
+import { palettes, pPal } from "./draw_player";
+import { Vec2D } from "../utils/Vec2D";
 
-function renderOverlay(showMatchTimer, showStock) {
+export let lostStockQueue = [];
+const twoPi = Math.PI * 2;
+
+export function renderOverlay(showMatchTimer, showStock) {
 
     // stocks, percent, timer
     ui.strokeStyle = "black";
@@ -76,15 +82,15 @@ function renderOverlay(showMatchTimer, showStock) {
     }
 }
 
-function setLostStockQueue(index,val){
+export function setLostStockQueue(index,val){
     lostStockQueue[index]=val;
 }
 
-function resetLostStockQueue(){
+export function resetLostStockQueue(){
     lostStockQueue = [];
 }
 
-function percentShake (kb,i){
+export function percentShake (kb,i){
   player[i].percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
   setTimeout(function(){player[i].percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);
   setTimeout(function(){player[i].percentShake = new Vec2D(-kb*0.1*Math.random(),-kb*0.1*Math.random())},40);
@@ -92,7 +98,7 @@ function percentShake (kb,i){
   setTimeout(function(){player[i].percentShake = new Vec2D(0,0)},80);
 }
 
-function gameFinishScreen() {
+export function gameFinishScreen() {
   fg2.save();
   fg2.textAlign = "center";
   var text = "Game!";

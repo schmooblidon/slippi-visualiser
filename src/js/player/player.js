@@ -1,3 +1,6 @@
+import { Vec2D } from "../utils/Vec2D";
+import { Box2D } from "../utils/Box2D";
+
 var charScales = [0.49,0.24,0.35,0.47,0.485];
 var miniScales = [0.32,0.168,0.3,0.3,0.3];
 
@@ -103,7 +106,7 @@ function inputObject() {
   this.dr = [false, false, false, false, false, false, false];
   this.du = [false, false, false, false, false, false, false];
 }
-function playerObject(character, pos, face) {
+export function playerObject(character, pos, face) {
   this.charID = character;
   this.phys = new physicsObject(pos, face);
   this.actionState = "ENTRANCE";

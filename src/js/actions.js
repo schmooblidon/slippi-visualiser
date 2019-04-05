@@ -1,4 +1,4 @@
-actions = {
+export const actions = {
 
 0x000 :   "DEADDOWN", //DeadDown 
 0x001 :   "DEADLEFT", //DeadLeft    Standard leftward death
@@ -390,7 +390,7 @@ actions = {
 */
 };
 
-specials = {
+export const specials = {
 
   "MARTH" : {
     341 : "NEUTRALSPECIALGROUND", //SPECIALNSTART

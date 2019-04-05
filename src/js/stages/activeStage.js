@@ -1,3 +1,6 @@
+import { Vec2D } from "../utils/Vec2D";
+import { Box2D } from "../utils/Box2D";
+
 
 const stageMapping = {
   0: "battlefield",
@@ -12,7 +15,7 @@ function setVsStage(val) {
   activeStage = vsstages[stageMapping[val]];
 }
 
-let activeStage = {
+export let activeStage = {
   name : "battlefield",
   box: [],
   polygon : [ [ new Vec2D(-68.4, 0), new Vec2D(68.4, 0), new Vec2D (65, -6), new Vec2D (36, -19)

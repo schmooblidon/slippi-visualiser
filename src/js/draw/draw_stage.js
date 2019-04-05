@@ -1,3 +1,8 @@
+import { Vec2D } from "../utils/Vec2D";
+import { euclideanDist } from "../utils/linAlg";
+import { activeStage } from "../stages/activeStage";
+import { layers, fg1, fg2, bg1, bg2, rotateVector } from "./draw";
+
 const twoPi = Math.PI * 2;
 const bgPos = [[-30, 500, 300, 500, 900, 500, 1230, 450, 358], [-30, 400, 300, 400, 900, 400, 1230, 350, 179]];
 const direction = [[1, -1, 1, -1, 1, -1, 1, -1, 1], [-1, 1, -1, 1, -1, 1, -1, 1, -1]];
@@ -25,7 +30,7 @@ randall[1].src = "assets/stage/randall2.png";
 randall[2].src = "assets/stage/randall3.png";
 let randallTimer = 0;
 
-function drawStageInit() {
+export function drawStageInit() {
   fg1.strokeStyle = "#db80cc";
   fg1.lineWidth = 1;
   
@@ -148,7 +153,7 @@ function drawDamageLine(type,can,stage){
   }
 }
 
-function drawStage() {
+export function drawStage() {
   calculateDamageWallColours();
   if (activeStage.name === "ystory") {
     // Randall
@@ -262,7 +267,7 @@ function bgStar() {
   this.life = 0;
 };
 
-function drawBackgroundInit() {
+export function drawBackgroundInit() {
   const bgGrad = bg1.createLinearGradient(0, 0, 0, 500);
   bgGrad.addColorStop(0, "rgb(24, 17, 66)");
   bgGrad.addColorStop(1, "black");
@@ -279,7 +284,7 @@ function drawBackgroundInit() {
   }
 };
 
-function drawBackground() {
+export function drawBackground() {
   if (backgroundType === 0) {
     drawStars();
   }

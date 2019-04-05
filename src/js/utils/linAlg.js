@@ -23,11 +23,11 @@ export function subtract(vec1 : Vec2D, vec2 : Vec2D) : Vec2D {
 }
 */
 
-function squaredDist (center1, center2) {
+export function squaredDist (center1, center2) {
   return ( (center2.x - center1.x)*(center2.x - center1.x) + (center2.y - center1.y)*(center2.y - center1.y) );
 };
 
-function euclideanDist(center1, center2) {
+export function euclideanDist(center1, center2) {
   const sqDist = squaredDist(center1, center2);
   return sqDist <= 0 ? 0 : Math.sqrt(sqDist);
 }

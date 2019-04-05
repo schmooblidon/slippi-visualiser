@@ -1,0 +1,24 @@
+{
+  "name": "slippi-visualiser",
+  "version": "1.0.0",
+  "description": "",
+  "private" : true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schmooblidon/slippi-visualiser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schmooblidon/slippi-visualiser/issues"
+  },
+  "homepage": "https://github.com/schmooblidon/slippi-visualiser#readme",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
