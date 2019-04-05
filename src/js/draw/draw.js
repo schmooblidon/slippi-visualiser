@@ -68,6 +68,8 @@ export function drawArrayPathCompress (can, col, face, tX, tY, path, scaleX, sca
   can.rotate(rotate);
 
   can.fillStyle = col;
+  can.lineWidth = 1;
+  can.strokeStyle = col;
   can.beginPath();
   // for each shape
   if(path !== undefined && path !== null && path.length !== undefined) {
@@ -86,7 +88,8 @@ export function drawArrayPathCompress (can, col, face, tX, tY, path, scaleX, sca
     }
   }
   can.closePath();
-  can.fill();
+  //can.fill();
+  can.stroke();
   can.restore();
 }
 

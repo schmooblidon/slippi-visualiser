@@ -1,8 +1,9 @@
-import { player, CHARIDS, startTimer } from "../main";
+import { player, startTimer } from "../main";
 import { activeStage } from "../stages/activeStage";
 import { fg2, drawArrayPathCompress } from "./draw";
 import { makeColour } from "../utils/makeColour";
 import { Vec2D } from "../utils/Vec2D";
+import { CHARIDS } from "../characters/characters";
 
 export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206, 111, ","rgb(244, 68, 68)","rgba(255, 225, 167, "],
 ["rgb(95, 216, 84)","rgb(184, 253, 154)","rgba(252, 95, 95, ","rgb(255, 182, 96)","rgba(254, 141, 141, "],
@@ -111,7 +112,7 @@ export function renderPlayer(i) {
         fg2.lineWidth = 1;
 
         drawArrayPathCompress(fg2, col, face, player[i].miniViewPoint.x, player[i].miniViewPoint.y + 30, model, player[
-            i].miniScale, player[i].miniScale, player[i].rotation, player[i].rotationPoint
+            i].bubbleScale, player[i].bubbleScale, player[i].rotation, player[i].rotationPoint
             .x, player[i].rotationPoint.y);
     } else {
         
@@ -131,7 +132,7 @@ export function renderPlayer(i) {
                 var sX = ((player[i].phys.shieldPositionReal.x) * activeStage.scale) + activeStage.offset[0];
                 var sY = ((player[i].phys.shieldPositionReal.y) * -activeStage.scale) + activeStage.offset[1];
                 var sCol = palettes[pPal[i]][2];
-                if (Math.floor(player[i].hit.shieldstun) > 0) {
+                if (Math.floor(player[i].phys.shieldstun) > 0) {
                     sCol = palettes[pPal[i]][4];
                 }
                 fg2.fillStyle = sCol + (0.6 * player[i].phys.shieldAnalog) + ")";

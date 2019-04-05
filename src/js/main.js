@@ -5,27 +5,9 @@ import { drawBackground, drawStage, drawBackgroundInit, drawStageInit } from "./
 import { bg1, bg2, fg1, fg2, ui, setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
 import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
 import { actions, specials } from "./actions";
-
+import { CHARIDS, characters } from "./characters/characters";
 
 const portNumbers = [0, 3, -1, -1];
-
-// BUILD PLAYERS
-export const CHARIDS = {
-    MARTH_ID : 0,
-    PUFF_ID : 1,
-    FOX_ID : 2,
-    FALCO_ID : 3,
-    FALCON_ID : 4
-};
-
-export const CHARNAMES = {
-  0 : "MARTH",
-  1 : "PUFF",
-  2 : "FOX",
-  3 : "FALCO",
-  4 : "FALCON"
-};
-
 
 export let player = [
   new playerObject(CHARIDS.FOX_ID, new Vec2D(0,0), 1),
@@ -141,7 +123,7 @@ function updateState() {
 
     // THROWN STATES
     if (actionID >= 0x0F0 && actionID <= 0x0F3) {
-      player[i].actionState = player[i].actionState.substr(0, 6) + CHARNAMES[player[1-i].charID] + player[i].actionState.substr(6,10);
+      player[i].actionState = player[i].actionState.substr(0, 6) + characters[player[1-i].charID].name + player[i].actionState.substr(6,10);
     }
 
     // SHIELD ON STATES
@@ -157,7 +139,7 @@ function updateState() {
 
     //SPECIALS
     if (actionID >= 341 && actionID <= 372) {
-      player[i].actionState = specials[CHARNAMES[player[i].charID]][actionID];
+      player[i].actionState = specials[characters[player[i].charID].name][actionID];
     }
 
     //DEAD
