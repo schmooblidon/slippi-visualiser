@@ -102,10 +102,10 @@ function drawDebug() {
   for (var i=0;i<playerAmount;i++) {
     var p = players[i];
     var port = p.port;
-    var state = curFrame.players[p.playerIndex].post;
     $("#p"+port+"_charname").text(p.charName);
-    $("#p"+port+"_action_id").text(state.actionStateId);
+    $("#p"+port+"_action_id").text(p.actionStateId);
     $("#p"+port+"_action_name").text(p.actionState);
+    $("#p"+port+"_action_counter").text(p.actionStateCounter);
   }
 }
 
@@ -140,8 +140,9 @@ function updateState() {
     p.phys.pos.y = state.positionY;
     p.phys.face = state.facingDirection;
     var actionID = state.actionStateId;
+    p.actionStateId = actionID;
+    p.actionStateCounter = state.actionStateCounter;
     p.actionState = actions[actionID];
-    p.timer = state.actionStateCounter;
 
     // THROWN STATES
     if (actionID >= 0x0EF && actionID <= 0x0F3) {
@@ -166,6 +167,9 @@ function updateState() {
 
     //DEAD
     p.dead = (actionID >= 0x000 && actionID <= 0x003);
+
+    //STARKO
+    p.starKO = actionID == 0x004;
 
   }
 }

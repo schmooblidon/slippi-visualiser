@@ -59,9 +59,12 @@ export function playerObject(playerIndex, port, characterId, characterColor, sta
   this.input = new inputObject();
   this.actionState = "ENTRANCE";
   this.prevActionState = "";
+  this.actionStateId = 0;
+  this.actionStateCounter = 0;
   this.timer = 0;
   this.attributes = characters[this.charName];
   this.dead = false;
+  this.starKO = false;
   this.percent = 0; 
   this.miniView = false;
   this.miniViewPoint = new Vec2D(0, 0);

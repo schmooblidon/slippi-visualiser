@@ -21,7 +21,7 @@ export function renderPlayer(i) {
     var temX = (p.phys.pos.x * activeStage.scale) + activeStage.offset[0];
     var temY = (p.phys.pos.y * -activeStage.scale) + activeStage.offset[1];
     var face = p.phys.face;
-    var frame = Math.floor(p.timer);
+    var frame = Math.floor(p.actionStateCounter);
     if (frame == 0) {
         frame = 1;
     }
@@ -99,7 +99,7 @@ export function renderPlayer(i) {
         p.miniView = false;
         p.phys.outOfCameraTimer = 0;
     }
-    if (p.miniView && p.actionState != "SLEEP") {
+    if (p.miniView && p.actionState != "SLEEP" && !p.starKO) {
         fg2.fillStyle = "black";
         fg2.strokeStyle = palette[0];
         fg2.beginPath();
@@ -111,16 +111,19 @@ export function renderPlayer(i) {
 
         drawArrayPathCompress(fg2, col, face, p.miniViewPoint.x, p.miniViewPoint.y + 30, model, p.attributes.bubbleScale, p.attributes.bubbleScale, p.rotation, p.rotationPoint
             .x, p.rotationPoint.y);
-    } else {
-        
+    } else {    
         if (p.actionState == "ENTRANCE") {
             drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (activeStage.scale /
                 4.5), Math.min(p.attributes.scale, p.attributes.scale * (2.05 -
                     startTimer)) * (activeStage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
                 .y);
         } else {
+            var scale = 1;
+            if (p.starKO) {
+                scale = 0.25;
+            }
             drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (activeStage.scale /
-                4.5), p.attributes.scale * (activeStage.scale / 4.5), p.rotation, p.rotationPoint
+                4.5) * scale, p.attributes.scale * (activeStage.scale / 4.5) * scale, p.rotation, p.rotationPoint
                 .x, p.rotationPoint.y);
         }
 
