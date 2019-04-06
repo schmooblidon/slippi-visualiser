@@ -6,6 +6,7 @@ import { setupLayers, setupFullscreenChange, setupElementInteractions, clearScre
 import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
 import { actions, specials } from "./actions";
 import { CHARIDS, characters } from "./characters/characters";
+import { setVsStage } from "./stages/activeStage";
 
 const portNumbers = [0, 3, -1, -1];
 
@@ -189,6 +190,8 @@ function start (){
   setupFullscreenChange();
   resize();
   setupElementInteractions();
+
+  setVsStage(game.settings.stageId);
 
   drawBackgroundInit();
   drawStageInit();
