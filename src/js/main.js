@@ -5,19 +5,22 @@ import { drawBackground, drawStage, drawBackgroundInit, drawStageInit } from "./
 import { setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
 import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
 import { actions, specials } from "./actions";
-import { CHARIDS, characters } from "./characters/characters";
+import { externalCharacterIDs, characters } from "./characters/characters";
 import { setVsStage } from "./stages/activeStage";
 
-const portNumbers = [0, 3, -1, -1];
-
-export let player = [
-  new playerObject(CHARIDS.FOX_ID, new Vec2D(0,0), 1),
-  new playerObject(CHARIDS.MARTH_ID, new Vec2D(0,0), 1),
-  0,
-  0
+export let players = [
+  null,null,null,null
 ];
 
-export const playerAmount = 2;
+export let playerAmount = 0;
+
+function buildPlayers() {
+  for (var i=0;i<game.settings.players.length;i++) {
+    var p = game.settings.players[i];
+    players[i] = new playerObject(p.playerIndex, p.port, p.characterId, p.characterColor, p.startStocks, p.type, p.teamId, p.nametag, new Vec2D(0,0), 1);
+  }
+  playerAmount = game.settings.players.length;
+}
 
 let playing = false;
 
@@ -105,46 +108,46 @@ function updateState() {
   if (currentFrame == null) { finishGame(); return ; }
 
   for (var i=0;i<playerAmount;i++) {
-    var port = portNumbers[i];
-    var state = currentFrame.players[port].post;
+    var p = players[i];
+    var state = currentFrame.players[p.playerIndex].post;
 
-    if (player[i].stocks != state.stocksRemaining) lostStockQueue.push([i, state.stocksRemaining, 0]);
-    if (player[i].percent != state.percent) percentShake(Math.abs(state.percent - player[i].percent)*8, i);
+    if (p.stocks != state.stocksRemaining) lostStockQueue.push([p.port - 1, state.stocksRemaining, 0]);
+    if (p.percent != state.percent) percentShake(Math.abs(state.percent - p.percent)*8, i);
 
-    player[i].stocks = state.stocksRemaining;
-    //if (player[i].stocks <= 0) { finishGame(); return; }
-    player[i].percent = state.percent;
+    p.stocks = state.stocksRemaining;
+    //if (p.stocks <= 0) { finishGame(); return; }
+    p.percent = state.percent;
 
-    player[i].phys.pos.x = state.positionX;
-    player[i].phys.pos.y = state.positionY;
-    player[i].phys.face = state.facingDirection;
+    p.phys.pos.x = state.positionX;
+    p.phys.pos.y = state.positionY;
+    p.phys.face = state.facingDirection;
     var actionID = state.actionStateId;
-    player[i].actionState = actions[actionID];
-    player[i].timer = state.actionStateCounter;
+    p.actionState = actions[actionID];
+    p.timer = state.actionStateCounter;
 
     // THROWN STATES
     if (actionID >= 0x0F0 && actionID <= 0x0F3) {
-      player[i].actionState = player[i].actionState.substr(0, 6) + characters[player[1-i].charID].name + player[i].actionState.substr(6,10);
+      p.actionState = p.actionState.substr(0, 6) + externalCharacterIDs[p.charID] + p.actionState.substr(6,10);
     }
 
     // SHIELD ON STATES
     if (actionID >= 0x0B2 && actionID <= 0x0B3) {
-      player[i].phys.shielding = true;
-      player[i].phys.shieldAnalog = 1;
-      player[i].phys.shieldPositionReal = new Vec2D(player[i].phys.pos.x + 0, player[i].phys.pos.y + 10);
-      player[i].phys.shieldSize = (state.shieldSize / 60) * 7.7696875;
+      p.phys.shielding = true;
+      p.phys.shieldAnalog = 1;
+      p.phys.shieldPositionReal = new Vec2D(p.phys.pos.x + 0, p.phys.pos.y + 10);
+      p.phys.shieldSize = (state.shieldSize / 60) * 7.7696875;
     }
     else {
-      player[i].phys.shielding = false;
+      p.phys.shielding = false;
     }
 
     //SPECIALS
     if (actionID >= 341 && actionID <= 372) {
-      player[i].actionState = specials[characters[player[i].charID].name][actionID];
+      p.actionState = specials[externalCharacterIDs[p.charID]][actionID];
     }
 
     //DEAD
-    player[i].dead = (actionID >= 0x000 && actionID <= 0x003);
+    p.dead = (actionID >= 0x000 && actionID <= 0x003);
 
   }
 }
@@ -181,10 +184,6 @@ $(document).keypress(function(e) {
 });
 
 function start (){
-  for (var i=0;i<playerAmount;i++){
-    player[i].phys.face = 1;
-    player[i].actionState = "WAIT";
-  }
   setupLayers();
 
   setupFullscreenChange();
@@ -192,6 +191,7 @@ function start (){
   setupElementInteractions();
 
   setVsStage(game.settings.stageId);
+  buildPlayers();
 
   drawBackgroundInit();
   drawStageInit();

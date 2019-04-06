@@ -1,5 +1,5 @@
 import { Vec2D } from "../utils/Vec2D";
-import { characters } from "../characters/characters";
+import { externalCharacterIDs, characters } from "../characters/characters";
 
 function physicsObject(pos, face) {
   this.pos = new Vec2D(pos.x, pos.y);
@@ -44,18 +44,25 @@ function inputObject() {
   this.du = [false, false, false, false, false, false, false];
 }
 
-export function playerObject(character, pos, face) {
-  this.charID = character;
+export function playerObject(playerIndex, port, characterId, characterColor, startStocks, type, teamId, nametag, pos, face) {
+  this.playerIndex = playerIndex;
+  this.port = port;
+  this.charID = characterId;
+  this.charName = externalCharacterIDs[this.charID];
+  this.charColor = characterColor;
+  this.stocks = startStocks;
+  this.type = type; // this is probs like CPU or HUMAN?
+  this.teamId = teamId;
+  this.hasNametag = (nametag != "");
+  this.nametag = nametag;
   this.phys = new physicsObject(pos, face);
   this.input = new inputObject();
   this.actionState = "ENTRANCE";
   this.prevActionState = "";
   this.timer = 0;
-  this.charScale = characters[this.charID].scale;
-  this.bubbleScale = characters[this.charID].bubbleScale;
+  this.attributes = characters[this.charName];
   this.dead = false;
-  this.percent = 0;
-  this.stocks = 4;
+  this.percent = 0; 
   this.miniView = false;
   this.miniViewPoint = new Vec2D(0, 0);
   this.percentShake = new Vec2D(0, 0);

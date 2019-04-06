@@ -40,6 +40,10 @@ const stageIds = {
 }
 
 export function setVsStage(val) {
+  if (stageIds[val] == null) {
+    console.log("STAGE IS NOT COMPATIBLE!");
+    val = 31;
+  }
   activeStage = vsstages[stageIds[val]];
   activeStageID = val;
 }

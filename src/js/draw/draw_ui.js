@@ -1,6 +1,6 @@
 import { ui, fg2 } from "./draw";
-import { player, playerAmount, matchTimer } from "../main";
-import { palettes, pPal } from "./draw_player";
+import { players, playerAmount, matchTimer } from "../main";
+import { palettes } from "./draw_player";
 import { Vec2D } from "../utils/Vec2D";
 
 export let lostStockQueue = [];
@@ -32,19 +32,22 @@ export function renderOverlay(showMatchTimer, showStock) {
         ui.save();
         ui.scale(0.8, 1);
         for (var i = 0; i < playerAmount; i++) {
-            ui.fillStyle = "rgb(255," + Math.max(255 - player[i].percent, 0) + ", " + Math.max(255 - player[i].percent, 0) +
+            var p = players[i];
+            var portNum = p.port - 1;
+            ui.fillStyle = "rgb(255," + Math.max(255 - p.percent, 0) + ", " + Math.max(255 - p.percent, 0) +
                 ")";
-            ui.fillText(Math.floor(player[i].percent) + "%", (450 + i * 145 + player[i].percentShake.x) * 1.25, 670 +
-                player[i].percentShake.y);
-            ui.strokeText(Math.floor(player[i].percent) + "%", (450 + i * 145 + player[i].percentShake.x) * 1.25, 670 +
-                player[i].percentShake.y);
+            ui.fillText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percentShake.x) * 1.25, 670 +
+                p.percentShake.y);
+            ui.strokeText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percentShake.x) * 1.25, 670 +
+                p.percentShake.y);
         }
         ui.restore();
         for (var i = 0; i < playerAmount; i++) {
-            ui.fillStyle = palettes[pPal[i]][0];
-            for (var j = 0; j < player[i].stocks; j++) {
+            ui.fillStyle = palettes[players[i].playerIndex][0];
+            var portNum = players[i].port - 1;
+            for (var j = 0; j < players[i].stocks; j++) {
                 ui.beginPath();
-                ui.arc(337 + i * 145 + j * 30, 600, 12, 0, twoPi);
+                ui.arc(337 + portNum * 145 + j * 30, 600, 12, 0, twoPi);
                 ui.closePath();
                 ui.fill();
                 ui.stroke();
@@ -91,11 +94,12 @@ export function resetLostStockQueue(){
 }
 
 export function percentShake (kb,i){
-  player[i].percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
-  setTimeout(function(){player[i].percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);
-  setTimeout(function(){player[i].percentShake = new Vec2D(-kb*0.1*Math.random(),-kb*0.1*Math.random())},40);
-  setTimeout(function(){player[i].percentShake = new Vec2D(-kb*0.05*Math.random(),-kb*0.05*Math.random())},60);
-  setTimeout(function(){player[i].percentShake = new Vec2D(0,0)},80);
+  var p = players[i];
+  p.percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
+  setTimeout(function(){p.percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);
+  setTimeout(function(){p.percentShake = new Vec2D(-kb*0.1*Math.random(),-kb*0.1*Math.random())},40);
+  setTimeout(function(){p.percentShake = new Vec2D(-kb*0.05*Math.random(),-kb*0.05*Math.random())},60);
+  setTimeout(function(){p.percentShake = new Vec2D(0,0)},80);
 }
 
 export function gameFinishScreen() {
