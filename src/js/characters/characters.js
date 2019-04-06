@@ -1,3 +1,5 @@
+import { Vec2D } from "../utils/Vec2D";
+
 
 export const externalCharacterIDs = {
   0x00 : "FALCON",   // Captain Falcon
@@ -40,31 +42,36 @@ export const characters = {
   "FALCON" : {
     animID : 4,
     scale : 0.485,
-    bubbleScale : 0.3
+    bubbleScale : 0.3,
+    shieldOffset : new Vec2D(5, 34),
   },
 
   "FOX" : {
     animID : 2,
     scale : 0.35,
-    bubbleScale : 0.3
+    bubbleScale : 0.3,
+    shieldOffset : new Vec2D(5, 34),
   },
 
   "MARTH" : {
     animID : 0,
     scale : 0.49,
-    bubbleScale : 0.32
+    bubbleScale : 0.32,
+    shieldOffset : new Vec2D(5, 40),
   },
 
   "PUFF" : {
     animID : 1,
     scale : 0.24,
-    bubbleScale : 0.168
+    bubbleScale : 0.168,
+    shieldOffset: new Vec2D(0, 22),
   },
 
   "FALCO" : {
     animID: 3,
     scale : 0.47,
-    bubbleScale : 0.3
+    bubbleScale : 0.3,
+    shieldOffset : new Vec2D(10, 40),
   }
 
 }

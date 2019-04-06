@@ -8,40 +8,41 @@ function physicsObject(pos, face) {
   this.grounded = false;
   this.airborneTimer = 0;
   this.face = face;
-  this.shieldHP = 60;
-  this.shieldSize = 0;
-  this.shieldAnalog = 0;
-  this.shielding = false;
-  this.shieldPosition = new Vec2D(0, 0);
-  this.shieldPosition = new Vec2D(0, 0);
-  this.shieldPositionReal = new Vec2D(0, 0);
-  this.shieldPositionReal = new Vec2D(0, 0);
-  this.shieldStun = 0;
   this.facePrev = 1;
   this.outOfCameraTimer = 0;
 }
 
+function shieldObject() {
+  this.active = false;
+  this.HP = 60;
+  this.size = 0;
+  this.analog = 0;
+  this.position = new Vec2D(0, 0);
+  this.positionReal = new Vec2D(0, 0);
+  this.stun = 0;
+}
+
 function inputObject() {
-  this.lsX = [0,0,0,0,0,0,0,0];
-  this.lsY = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.rawX = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.rawY = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.csX = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.csY = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.lA = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.rA = [0, 0, 0, 0, 0, 0, 0, 0];
-  this.s = [false, false, false, false, false, false, false, false];
-  this.z = [false, false, false, false, false, false, false, false];
-  this.a = [false, false, false, false, false, false, false, false];
-  this.b = [false, false, false, false, false, false, false, false];
-  this.x = [false, false, false, false, false, false, false, false];
-  this.y = [false, false, false, false, false, false, false, false];
-  this.r = [false, false, false, false, false, false, false, false];
-  this.l = [false, false, false, false, false, false, false, false];
-  this.dl = [false, false, false, false, false, false, false];
-  this.dd = [false, false, false, false, false, false, false];
-  this.dr = [false, false, false, false, false, false, false];
-  this.du = [false, false, false, false, false, false, false];
+  this.lsX = 0;
+  this.lsY = 0;
+  this.rawX = 0;
+  this.rawY = 0;
+  this.csX = 0;
+  this.csY = 0;
+  this.lA = 0;
+  this.rA = 0;
+  this.start = false;
+  this.z = false;
+  this.a = false;
+  this.b = false;
+  this.x = false;
+  this.y = false;
+  this.r = false;
+  this.l = false;
+  this.dpadLeft = false;
+  this.dpadDown = false;
+  this.dpadRight = false;
+  this.dpadUp = false;
 }
 
 export function playerObject(playerIndex, port, characterId, characterColor, startStocks, type, teamId, nametag, pos, face) {
@@ -57,11 +58,11 @@ export function playerObject(playerIndex, port, characterId, characterColor, sta
   this.nametag = nametag;
   this.phys = new physicsObject(pos, face);
   this.input = new inputObject();
+  this.shield = new shieldObject();
   this.actionState = "ENTRANCE";
   this.prevActionState = "";
   this.actionStateId = 0;
   this.actionStateCounter = 0;
-  this.timer = 0;
   this.attributes = characters[this.charName];
   this.dead = false;
   this.starKO = false;

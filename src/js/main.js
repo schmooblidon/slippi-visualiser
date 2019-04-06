@@ -7,6 +7,7 @@ import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from ".
 import { actions, specials } from "./actions";
 import { externalCharacterIDs, characters } from "./characters/characters";
 import { setVsStage } from "./stages/activeStage";
+import { setInput } from "./input/input";
 
 export let players = [
   null,null,null,null
@@ -97,8 +98,6 @@ let showDebug = false;
 
 function drawDebug() {
   $("#currentFrame").text(currentFrameIdx.toString());
-  var curFrame = game.frames[currentFrameIdx];
-  if (curFrame == null) return;
   for (var i=0;i<playerAmount;i++) {
     var p = players[i];
     var port = p.port;
@@ -106,6 +105,11 @@ function drawDebug() {
     $("#p"+port+"_action_id").text(p.actionStateId);
     $("#p"+port+"_action_name").text(p.actionState);
     $("#p"+port+"_action_counter").text(p.actionStateCounter);
+
+    $("#p"+port+"_input_lsX").text(p.input.lsX);
+    $("#p"+port+"_input_lsY").text(p.input.lsY);
+    $("#p"+port+"_input_l_trigger").text(p.input.lA);
+    $("#p"+port+"_input_r_trigger").text(p.input.rA);
   }
 }
 
@@ -128,6 +132,9 @@ function updateState() {
   for (var i=0;i<playerAmount;i++) {
     var p = players[i];
     var state = currentFrame.players[p.playerIndex].post;
+    var input = currentFrame.players[p.playerIndex].pre;
+
+    setInput(p, input);
 
     if (p.stocks != state.stocksRemaining) lostStockQueue.push([p.port - 1, state.stocksRemaining, 0]);
     if (p.percent != state.percent) percentShake(Math.abs(state.percent - p.percent)*8, i);
@@ -151,14 +158,23 @@ function updateState() {
 
     // SHIELD ON STATES
     if (actionID >= 0x0B2 && actionID <= 0x0B6) {
-      p.phys.shielding = true;
-      p.phys.shieldAnalog = 1;
-      p.phys.shieldPositionReal = new Vec2D(p.phys.pos.x + 0, p.phys.pos.y + 10);
-      p.phys.shieldSize = (state.shieldSize / 60) * 7.7696875;
-      p.phys.shieldStun = (actionID == 0x0B5) ? 1 : 0; 
+      p.shield.active = true;
+      p.shield.HP = state.shieldSize;
+      p.shield.size = (p.shield.HP / 60) * 7.7696875;
+      p.shield.stun = (actionID == 0x0B5) ? 1 : 0;
+      p.shield.analog = Math.max(p.input.rA, p.input.lA);
+      p.shield.positionReal = new Vec2D(0, 0);
+      if (!p.shield.stun) {
+        var x = p.input.lsX;
+        var y = p.input.lsY;
+        var offset = Math.sqrt(x * x + y * y) * 3;
+        var angle = Math.atan2(y, x);
+        p.shield.position =  new Vec2D(Math.cos(angle) * offset, Math.sin(angle) * offset);
+      }
+      p.shield.positionReal = new Vec2D(p.phys.pos.x + p.shield.position.x + (p.attributes.shieldOffset.x * p.phys.face / 4.5), p.phys.pos.y + p.shield.position.y + (p.attributes.shieldOffset.y / 4.5));
     }
     else {
-      p.phys.shielding = false;
+      p.shield.active = false;
     }
 
     //SPECIALS

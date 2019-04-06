@@ -127,19 +127,17 @@ export function renderPlayer(i) {
                 .x, p.rotationPoint.y);
         }
 
-        if (p.phys.shielding) {
-            if (!(p.phys.powerShielded && p.hit.hitlag > 0)) {
-                var sX = ((p.phys.shieldPositionReal.x) * activeStage.scale) + activeStage.offset[0];
-                var sY = ((p.phys.shieldPositionReal.y) * -activeStage.scale) + activeStage.offset[1];
-                var sCol = palette[2];
-                if (Math.floor(p.phys.shieldStun) > 0) {
-                    sCol = palette[4];
-                }
-                fg2.fillStyle = sCol + (0.6 * p.phys.shieldAnalog) + ")";
-                fg2.beginPath();
-                fg2.arc(sX, sY, p.phys.shieldSize * activeStage.scale, twoPi, 0);
-                fg2.fill();
+        if (p.shield.active) {
+            var sX = ((p.shield.positionReal.x) * activeStage.scale) + activeStage.offset[0];
+            var sY = ((p.shield.positionReal.y) * -activeStage.scale) + activeStage.offset[1];
+            var sCol = palette[2];
+            if (Math.floor(p.shield.stun) > 0) {
+                sCol = palette[4];
             }
+            fg2.fillStyle = sCol + (0.6 * p.shield.analog) + ")";
+            fg2.beginPath();
+            fg2.arc(sX, sY, p.shield.size * activeStage.scale, twoPi, 0);
+            fg2.fill();
         }
         if (p.hasNametag) {
             fg2.fillStyle = makeColour(0, 0, 0, 0.5);
