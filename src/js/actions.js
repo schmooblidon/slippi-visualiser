@@ -214,7 +214,7 @@ export const actions = {
 0x0D3 :   "FURAFURA", //FuraFura    Shield-break tottering
 0x0D4 :   "GRAB", //Catch    Grab
 0x0D5 :   "CATCHWAIT", //CatchPull    Successfully grabbing a character - pulling them in
-0x0D6 :   "CATCHDASH", //CatchDash
+0x0D6 :   "GRAB", //CatchDash
 0x0D7 :   "CATCHWAIT", //CatchDashPull
 0x0D8 :   "CATCHWAIT", //CatchWait    Grabbing and holding a character
 0x0D9 :   "CATCHATTACK", //CatchAttack    Pummel
