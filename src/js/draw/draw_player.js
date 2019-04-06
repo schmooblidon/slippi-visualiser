@@ -56,7 +56,17 @@ export function renderPlayer(i) {
         if (frame >= 10) {
             face *= -1;
         }
-    }   
+    }
+
+    p.rotation = 0;
+    p.rotationPoint = new Vec2D(0,0);
+    // FIREFOX
+    if (p.actionState == "UPSPECIALLAUNCH") {
+        if ((externalCharacterIDs[p.charID] == "FOX" && frame < 31) || (externalCharacterIDs[p.charID] == "FALCO" && frame < 23)) {
+            p.rotation = Math.PI / 2 - Math.atan2(p.phys.posDelta.y, p.phys.posDelta.x);
+            p.rotationPoint = new Vec2D(0,40);
+        }
+    }
 
     var palette = palettes[p.playerIndex];
     var col = palette[0];

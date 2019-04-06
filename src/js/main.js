@@ -129,9 +129,12 @@ function updateState() {
 
   if (currentFrame == null) { finishGame(); return ; }
 
+  var prevFrame = game.frames[Math.max(-123, currentFrameIdx-1)];
+
   for (var i=0;i<playerAmount;i++) {
     var p = players[i];
     var state = currentFrame.players[p.playerIndex].post;
+    var prevState = prevFrame.players[p.playerIndex].post;
     var input = currentFrame.players[p.playerIndex].pre;
 
     setInput(p, input);
@@ -145,6 +148,10 @@ function updateState() {
 
     p.phys.pos.x = state.positionX;
     p.phys.pos.y = state.positionY;
+    p.phys.posPrev.x = prevState.positionX;
+    p.phys.posPrev.y = prevState.positionY;
+    p.phys.posDelta.x = p.phys.pos.x - p.phys.posPrev.x;
+    p.phys.posDelta.y = p.phys.pos.y - p.phys.posPrev.y;
     p.phys.face = state.facingDirection;
     var actionID = state.actionStateId;
     p.actionStateId = actionID;
