@@ -1,11 +1,11 @@
 // @flow
 
-import {Box2D} from "../../main/util/Box2D";
-import {Vec2D} from "../../main/util/Vec2D";
+import {Box2D} from "../../utils/Box2D";
+import {Vec2D} from "../../utils/Vec2D";
 
 import {activeStage} from "../activeStage";
-import {player, starting} from "../../main/main";
-import {additionalOffset} from "../../physics/environmentalCollision";
+import {player} from "../../main";
+//import {additionalOffset} from "../../physics/environmentalCollision";
 
 /*eslint indent:0*/ 
 
@@ -14,14 +14,15 @@ const platR = 49.5;
 const platYMin = 12.375;
 const platYMax = 27.375;
 
+// TODO : I DONT KNOW WHAT THIS IS
+const additionalOffset = 0;
 
-
-type PlatformState = { state : "moving" | "static", destination : number, timer : number } 
+//type PlatformState = { state : "moving" | "static", destination : number, timer : number } 
 
 let platformStates = [ { state : "moving", timer : 0, destination : 22.125 }
                      , { state : "moving", timer : 0, destination : 16.125 } ];
 
-function updatePlatform ( i : number, j : number ) : void {
+function updatePlatform ( i, j) {
   const platformState = platformStates[j];
   if (platformState.state === "static") {
     if (platformState.timer < 1) {
@@ -112,7 +113,7 @@ export default {
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], ["g",3]],[["g",2], ["g",4]], [["g",3], null]], [[null,null],[null,null],[null,null]]],
   movingPlats: [1,2],
   movingPlatforms: function () {
-    if (starting) { // resets the stage
+    /*if (starting) { // resets the stage
       platformStates = [ { state : "moving", timer : 0, destination : 22.125 }
                        , { state : "moving", timer : 0, destination : 16.125 } ];
       activeStage.platform[1][0].y = 22.125;
@@ -143,6 +144,6 @@ export default {
           }
         }
       }
-    }
+    }*/
   }
 };

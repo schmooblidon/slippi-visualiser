@@ -1,9 +1,9 @@
-import battlefield from 'stages/vs-stages/battlefield';
-import dreamland from 'stages/vs-stages/dreamland';
-import pstadium from 'stages/vs-stages/pstadium';
-import ystory from 'stages/vs-stages/ystory';
-import fdest from 'stages/vs-stages/fdest';
-import fountain from 'stages/vs-stages/fountain';
+import battlefield from './battlefield';
+import dreamland from './dreamland';
+import pstadium from './pstadium';
+import ystory from './ystory';
+import fdest from './fdest';
+import fountain from './fountain';
 
 export default {
   battlefield,

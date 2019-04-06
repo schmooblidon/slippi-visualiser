@@ -1,5 +1,4 @@
 import { Vec2D } from "../utils/Vec2D";
-import { Box2D } from "../utils/Box2D";
 import { characters } from "../characters/characters";
 
 function physicsObject(pos, face) {
@@ -48,6 +47,7 @@ function inputObject() {
 export function playerObject(character, pos, face) {
   this.charID = character;
   this.phys = new physicsObject(pos, face);
+  this.input = new inputObject();
   this.actionState = "ENTRANCE";
   this.prevActionState = "";
   this.timer = 0;

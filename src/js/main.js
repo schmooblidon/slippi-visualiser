@@ -2,7 +2,7 @@ import { playerObject } from "./player/player";
 import { renderPlayer } from "./draw/draw_player";
 import { Vec2D } from "./utils/Vec2D";
 import { drawBackground, drawStage, drawBackgroundInit, drawStageInit } from "./draw/draw_stage";
-import { bg1, bg2, fg1, fg2, ui, setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
+import { setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
 import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
 import { actions, specials } from "./actions";
 import { CHARIDS, characters } from "./characters/characters";
@@ -161,7 +161,6 @@ $(document).keydown(function(e) {
 });
 
 $(document).keypress(function(e) {
-  console.log(e.which);
   // ENTER
   if (e.which == 13) {
     togglePause();

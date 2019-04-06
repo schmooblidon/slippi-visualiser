@@ -1,3 +1,3 @@
-window.$ = require("./js/dependencies/jquery.min");
+window.$ = require("jquery");
 require("./js/htmlSetup.js");
 require("./js/main.js");

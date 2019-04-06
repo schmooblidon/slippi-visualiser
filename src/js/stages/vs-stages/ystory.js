@@ -1,8 +1,8 @@
 
-import {activeStage} from "stages/activeStage";
-import {player} from "main/main";
-import {Box2D} from "../../main/util/Box2D";
-import {Vec2D} from "../../main/util/Vec2D";
+import {activeStage} from "../activeStage";
+import {player} from "../../main";
+import {Box2D} from "../../utils/Box2D";
+import {Vec2D} from "../../utils/Vec2D";
 
 /*eslint indent:0*/ 
 
@@ -70,12 +70,12 @@ export default {
       move = [-0.354845, 0];
     }
 
-    for (let j = 0; j < 4; j++) {
+    /*for (let j = 0; j < 4; j++) {
       if (player[j].phys.onSurface[0] === 1 && player[j].phys.onSurface[1] === 0 && player[j].phys.grounded) {
         player[j].phys.pos.x += move[0];
         //player[j].phys.pos.y += move[1];
         player[j].phys.pos.y = plat[0].y;
       }
-    }
+    }*/
   }
 };

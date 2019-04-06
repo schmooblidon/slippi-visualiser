@@ -15,7 +15,6 @@ for (let p = 0; p < 20; p++) {
   bgStars[p].pos = new Vec2D(600 + 100 * Math.random() * bgStars[p].velocity.x, 375 + 100 * Math.random() * bgStars[p].velocity.y);
 }
 let bgSparkle = 3;
-const gridGrad = "rgba(94,173,255,0.2)";
 
 const circleSize = [];
 for (let i = 0; i < 5; i++) {
@@ -94,9 +93,6 @@ export function drawStageInit() {
     fg1.stroke();
   }
 };
-
-const swirlTimer = 0;
-const swirlSwitch = false;
 
 const wallColour = ["rgb(255,0,40)","rgb(0,255,255)","rgb(125,125,125)","rgb(125,50,255)"];
 
@@ -231,28 +227,6 @@ export function drawStage() {
   }
 
   fg2.strokeStyle = "#e7a44c";
-  
-  const ex = 0;
-  /*if (holiday !== 1){
-    for (let j = 0; j < activeStage.ledge.length; j++) {
-      const e = activeStage.ledge[j];   
-      fg2.beginPath();
-      if (e[1]) {
-        fg2.moveTo(activeStage.box[e[0]].max.x * activeStage.scale + activeStage.offset[0] -ex, (activeStage.box[e[0]].max.y - Math.min(10, (activeStage.box[e[0]].max.y - activeStage.box[e[0]].min.y) / 2)) * -activeStage.scale + activeStage.offset[1] +ex);
-        fg2.lineTo(activeStage.box[e[0]].max.x * activeStage.scale + activeStage.offset[0] -ex, activeStage.box[e[0]].max.y * -activeStage.scale + activeStage.offset[1] +ex);
-        fg2.lineTo((activeStage.box[e[0]].max.x - Math.min(10, (activeStage.box[e[0]].max.x - activeStage.box[e[0]].min.x) / 2)) * activeStage.scale + activeStage.offset[0] -ex, activeStage.box[e[0]].max.y * -activeStage.scale + activeStage.offset[1] +ex);
-      }
-      else {
-        fg2.moveTo(activeStage.box[e[0]].min.x * activeStage.scale + activeStage.offset[0] +ex, (activeStage.box[e[0]].max.y - Math.min(10, (activeStage.box[e[0]].max.y - activeStage.box[e[0]].min.y) / 2)) * -activeStage.scale + activeStage.offset[1] +ex);
-        fg2.lineTo(activeStage.box[e[0]].min.x * activeStage.scale + activeStage.offset[0] +ex, activeStage.box[e[0]].max.y * -activeStage.scale + activeStage.offset[1] +ex);
-        fg2.lineTo((activeStage.box[e[0]].min.x + Math.min(10, (activeStage.box[e[0]].max.x - activeStage.box[e[0]].min.x) / 2)) * activeStage.scale + activeStage.offset[0] +ex, activeStage.box[e[0]].max.y * -activeStage.scale + activeStage.offset[1] +ex);
-      }
-      fg2.closePath();
-      fg2.stroke();
-      fg2.fill();
-      fg2.fill();
-    }
-  }*/
 };
 
 function setBackgroundType(val) {

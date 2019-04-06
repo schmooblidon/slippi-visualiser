@@ -1,5 +1,6 @@
 import { Vec2D } from "../utils/Vec2D";
 import { Box2D } from "../utils/Box2D";
+import vsstages from "./vs-stages/vs-stages";
 
 
 const stageMapping = {

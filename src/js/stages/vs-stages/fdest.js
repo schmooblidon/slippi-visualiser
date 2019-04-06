@@ -1,5 +1,5 @@
-import {Box2D} from "../../main/util/Box2D";
-import {Vec2D} from "../../main/util/Vec2D";
+import {Box2D} from "../../utils/Box2D";
+import {Vec2D} from "../../utils/Vec2D";
 
 export default {
   name : "fdest",
