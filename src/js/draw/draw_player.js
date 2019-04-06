@@ -13,9 +13,6 @@ export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206
 ["rgb(182, 131, 70)","rgb(252, 194, 126)","rgba(47, 186, 123, ","rgb(255, 112, 66)","rgba(111, 214, 168, "],
 ["rgb(232, 232, 208)","rgb(255, 255, 255)","rgba(244, 255, 112, ","rgb(191, 119, 119)","rgba(255, 255, 200, "]];
 
-const hasTag = [true,true,false,false];
-const tagText = ["SFAT","ZAIN","",""];
-
 const twoPi = Math.PI * 2;
 
 export function renderPlayer(i) {
