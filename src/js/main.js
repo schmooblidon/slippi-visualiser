@@ -89,6 +89,24 @@ function renderState() {
     renderPlayer(i);
   }
   renderOverlay(true, true);
+
+  if (showDebug) drawDebug();
+}
+
+let showDebug = false;
+
+function drawDebug() {
+  $("#currentFrame").text(currentFrameIdx.toString());
+  var curFrame = game.frames[currentFrameIdx];
+  if (curFrame == null) return;
+  for (var i=0;i<playerAmount;i++) {
+    var p = players[i];
+    var port = p.port;
+    var state = curFrame.players[p.playerIndex].post;
+    $("#p"+port+"_charname").text(p.charName);
+    $("#p"+port+"_action_id").text(state.actionStateId);
+    $("#p"+port+"_action_name").text(p.actionState);
+  }
 }
 
 function updateState() {
@@ -126,7 +144,7 @@ function updateState() {
     p.timer = state.actionStateCounter;
 
     // THROWN STATES
-    if (actionID >= 0x0F0 && actionID <= 0x0F3) {
+    if (actionID >= 0x0EF && actionID <= 0x0F3) {
       p.actionState = p.actionState.substr(0, 6) + externalCharacterIDs[p.charID] + p.actionState.substr(6,10);
     }
 
@@ -171,11 +189,13 @@ $(document).keypress(function(e) {
   }
   // D
   if (e.which == 68 || e.which == 100) {
-    frameForward();
-  }
-  // A
-  if (e.which == 65 || e.which == 97) {
-    frameBackward();
+    showDebug ^= true;
+    if (showDebug) {
+      $("#debug").show();
+    }
+    else {
+      $("#debug").hide();
+    }
   }
   // R
   if (e.which == 82 || e.which == 114) {
