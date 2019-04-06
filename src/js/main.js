@@ -150,11 +150,12 @@ function updateState() {
     }
 
     // SHIELD ON STATES
-    if (actionID >= 0x0B2 && actionID <= 0x0B3) {
+    if (actionID >= 0x0B2 && actionID <= 0x0B6) {
       p.phys.shielding = true;
       p.phys.shieldAnalog = 1;
       p.phys.shieldPositionReal = new Vec2D(p.phys.pos.x + 0, p.phys.pos.y + 10);
       p.phys.shieldSize = (state.shieldSize / 60) * 7.7696875;
+      p.phys.shieldStun = (actionID == 0x0B5) ? 1 : 0; 
     }
     else {
       p.phys.shielding = false;

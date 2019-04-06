@@ -132,7 +132,7 @@ export function renderPlayer(i) {
                 var sX = ((p.phys.shieldPositionReal.x) * activeStage.scale) + activeStage.offset[0];
                 var sY = ((p.phys.shieldPositionReal.y) * -activeStage.scale) + activeStage.offset[1];
                 var sCol = palette[2];
-                if (Math.floor(p.phys.shieldstun) > 0) {
+                if (Math.floor(p.phys.shieldStun) > 0) {
                     sCol = palette[4];
                 }
                 fg2.fillStyle = sCol + (0.6 * p.phys.shieldAnalog) + ")";

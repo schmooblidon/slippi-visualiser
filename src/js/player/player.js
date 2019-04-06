@@ -16,7 +16,7 @@ function physicsObject(pos, face) {
   this.shieldPosition = new Vec2D(0, 0);
   this.shieldPositionReal = new Vec2D(0, 0);
   this.shieldPositionReal = new Vec2D(0, 0);
-  this.shieldstun = 0;
+  this.shieldStun = 0;
   this.facePrev = 1;
   this.outOfCameraTimer = 0;
 }
