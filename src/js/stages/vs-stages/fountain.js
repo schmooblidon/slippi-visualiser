@@ -17,7 +17,7 @@ const additionalOffset = 0;
 
 //type PlatformState = { state : "moving" | "static", destination : number, timer : number } 
 
-let platformStates = [ { state : "moving", timer : 0, destination : 22.125 }
+/*let platformStates = [ { state : "moving", timer : 0, destination : 22.125 }
                      , { state : "moving", timer : 0, destination : 16.125 } ];
 
 function updatePlatform ( i, j) {
@@ -71,7 +71,7 @@ function updatePlatform ( i, j) {
     }
   }
 
-}
+}*/
 
 export default {
   name : "fountain",

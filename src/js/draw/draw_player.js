@@ -21,38 +21,38 @@ export function drawPlayer(g, i) {
     var temX = (p.phys.pos.x * stage.scale) + stage.offset.x;
     var temY = (p.phys.pos.y * -stage.scale) + stage.offset.y;
     var face = p.phys.face;
-    var frame = Math.floor(p.actionStateCounter);
+    var frame = Math.floor(p.action.counter);
     if (frame == 0) {
         frame = 1;
     }
-    /*if (frame > framesData[characterSelections[i]][p.actionState]) {
-        frame = framesData[characterSelections[i]][p.actionState];
+    /*if (frame > framesData[characterSelections[i]][p.action.name]) {
+        frame = framesData[characterSelections[i]][p.action.name];
     }*/
-    if(animations[p.attributes.animID][p.actionState] === undefined){
+    if(animations[p.attributes.animID][p.action.name] === undefined){
       return;
     }
 
-    if ((frame - 1) > animations[p.attributes.animID][p.actionState].length - 1) {
-        frame = animations[p.attributes.animID][p.actionState].length;
+    if ((frame - 1) > animations[p.attributes.animID][p.action.name].length - 1) {
+        frame = animations[p.attributes.animID][p.action.name].length;
     }
 
-    if(animations[p.attributes.animID][p.actionState][frame - 1] === undefined){
-       frame = animations[p.attributes.animID][p.actionState].length;
+    if(animations[p.attributes.animID][p.action.name][frame - 1] === undefined){
+       frame = animations[p.attributes.animID][p.action.name].length;
     }
-    var model = animations[p.attributes.animID][p.actionState][frame - 1];
+    var model = animations[p.attributes.animID][p.action.name][frame - 1];
 
     // TURN
-    if (p.actionState == "SMASHTURN") {
+    if (p.action.name == "SMASHTURN") {
         face *= -1;
     }
     // MARTH BAIR
-    else if (p.actionState == "ATTACKAIRB" && externalCharacterIDs[p.charID] == "MARTH") {
+    else if (p.action.name == "ATTACKAIRB" && externalCharacterIDs[p.charID] == "MARTH") {
         if (frame > 29) {
             face *= -1;
         }
     }
     // FOX/FALCO BTHROW
-    else if (p.actionState == "THROWBACK" && (externalCharacterIDs[p.charID] == "FOX" || externalCharacterIDs[p.charID] == "FALCO")) {
+    else if (p.action.name == "THROWBACK" && (externalCharacterIDs[p.charID] == "FOX" || externalCharacterIDs[p.charID] == "FALCO")) {
         if (frame >= 10) {
             face *= -1;
         }
@@ -61,7 +61,7 @@ export function drawPlayer(g, i) {
     p.rotation = 0;
     p.rotationPoint = new Vec2D(0,0);
     // FIREFOX
-    if (p.actionState == "UPSPECIALLAUNCH") {
+    if (p.action.name == "UPSPECIALLAUNCH") {
         if ((externalCharacterIDs[p.charID] == "FOX" && frame < 31) || (externalCharacterIDs[p.charID] == "FALCO" && frame < 23)) {
             p.rotation = Math.PI / 2 - Math.atan2(p.phys.posDelta.y, p.phys.posDelta.x);
             p.rotationPoint = new Vec2D(0,40);
@@ -83,7 +83,6 @@ export function drawPlayer(g, i) {
                 p.miniViewSide = 1;
             }
             p.miniView = true;
-            p.phys.outOfCameraTimer++;
         } else if (-600 <= 375 / s && 375 / s <= 600) {
             if (pA.y > pB.y) {
                 if (temX < 50) {
@@ -100,16 +99,13 @@ export function drawPlayer(g, i) {
                 p.miniViewSide = 2;
             }
             p.miniView = true;
-            p.phys.outOfCameraTimer++;
         } else {
             p.miniView = false;
-            p.phys.outOfCameraTimer = 0;
         }
     } else {
         p.miniView = false;
-        p.phys.outOfCameraTimer = 0;
     }
-    if (p.miniView && p.actionState != "SLEEP" && !p.starKO) {
+    if (p.miniView && p.action.name != "SLEEP" && !p.starKO) {
         fg2.fillStyle = "black";
         fg2.strokeStyle = palette[0];
         fg2.beginPath();
@@ -122,7 +118,7 @@ export function drawPlayer(g, i) {
         drawArrayPathCompress(fg2, col, face, p.miniViewPoint.x, p.miniViewPoint.y + 30, model, p.attributes.bubbleScale, p.attributes.bubbleScale, p.rotation, p.rotationPoint
             .x, p.rotationPoint.y);
     } else {    
-        if (p.actionState == "ENTRANCE") {
+        if (p.action.name == "ENTRANCE") {
             drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (stage.scale /
                 4.5), Math.min(p.attributes.scale, p.attributes.scale * (2.05 -
                     g.startTimer)) * (stage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
@@ -138,8 +134,9 @@ export function drawPlayer(g, i) {
         }
 
         if (p.shield.active) {
-            var sX = ((p.shield.positionReal.x) * stage.scale) + stage.offset.x;
-            var sY = ((p.shield.positionReal.y) * -stage.scale) + stage.offset.y;
+            var shield_pos = p.getShieldPosition();
+            var sX = ((shield_pos.x) * stage.scale) + stage.offset.x;
+            var sY = ((shield_pos.y) * -stage.scale) + stage.offset.y;
             var sCol = palette[2];
             if (Math.floor(p.shield.stun) > 0) {
                 sCol = palette[4];
@@ -170,7 +167,7 @@ export function drawPlayer(g, i) {
             fg2.textAlign = "start";
         }
     }
-    if (p.actionState == "REBIRTH" || p.actionState == "REBIRTHWAIT") {
+    if (p.action.name == "REBIRTH" || p.action.name == "REBIRTHWAIT") {
         fg2.fillStyle = palette[1];
         fg2.strokeStyle = palette[0];
         fg2.lineWidth = 1;

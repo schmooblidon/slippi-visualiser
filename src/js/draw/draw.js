@@ -53,12 +53,6 @@ export function renderToMain (){
   }
 }
 
-export function rotateVector(vecx, vecy, ang) {
-    return new Vec2D(
-        vecx * Math.cos(ang) - vecy * Math.sin(ang),
-        vecx * Math.sin(ang) + vecy * Math.cos(ang));
-}
-
 export function drawArrayPathCompress (can, col, face, tX, tY, path, scaleX, scaleY, rotate, rpX, rpY, extra) {
   can.save();
   if (extra !== undefined) {

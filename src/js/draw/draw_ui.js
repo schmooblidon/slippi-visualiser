@@ -35,10 +35,10 @@ export function drawOverlay(game, showMatchTimer, showStock) {
             var portNum = p.port - 1;
             ui.fillStyle = "rgb(255," + Math.max(255 - p.percent, 0) + ", " + Math.max(255 - p.percent, 0) +
                 ")";
-            ui.fillText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percentShake.x) * 1.25, 670 +
-                p.percentShake.y);
-            ui.strokeText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percentShake.x) * 1.25, 670 +
-                p.percentShake.y);
+            ui.fillText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percent_pos.x) * 1.25, 670 +
+                p.percent_pos.y);
+            ui.strokeText(Math.floor(p.percent) + "%", (450 + portNum * 145 + p.percent_pos.x) * 1.25, 670 +
+                p.percent_pos.y);
         }
         ui.restore();
         for (var i = 0; i < game.playerAmount; i++) {
@@ -90,15 +90,6 @@ export function setLostStockQueue(index,val){
 
 export function resetLostStockQueue(){
     lostStockQueue = [];
-}
-
-export function percentShake (player,kb){
-  var p = player;
-  p.percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
-  setTimeout(function(){p.percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);
-  setTimeout(function(){p.percentShake = new Vec2D(-kb*0.1*Math.random(),-kb*0.1*Math.random())},40);
-  setTimeout(function(){p.percentShake = new Vec2D(-kb*0.05*Math.random(),-kb*0.05*Math.random())},60);
-  setTimeout(function(){p.percentShake = new Vec2D(0,0)},80);
 }
 
 export function drawGameFinishScreen(game) {

@@ -1,3 +1,3 @@
 window.$ = require("jquery");
-require("./js/htmlSetup.js");
+require("./js/window.js");
 require("./js/main.js");

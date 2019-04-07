@@ -1,6 +1,6 @@
 import Vec2D from "../utils/Vec2D";
 import { euclideanDist } from "../utils/linAlg";
-import { layers, fg1, fg2, bg1, bg2, rotateVector } from "./draw";
+import { layers, fg1, fg2, bg1, bg2 } from "./draw";
 
 const twoPi = Math.PI * 2;
 const bgPos = [[-30, 500, 300, 500, 900, 500, 1230, 450, 358], [-30, 400, 300, 400, 900, 400, 1230, 350, 179]];
@@ -272,7 +272,8 @@ function drawTunnel() {
   let angB = ang;
   bg2.beginPath();
   for (let i = 0; i < 16; i++) {
-    const v = rotateVector(0, 800, angB);
+    let v = new Vec2D(0, 800);
+    v.rotate(angB);
     bg2.moveTo(600, 375);
     bg2.lineTo(600 + v.x, 375 + v.y);
     angB += Math.PI / 8;

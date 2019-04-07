@@ -4,12 +4,10 @@ import { getStage } from "./stages/stages";
 import Vec2D from "./utils/Vec2D";
 import { clearScreen } from "./draw/draw";
 import { drawPlayer } from "./draw/draw_player";
-import { drawGameFinishScreen, drawOverlay, lostStockQueue, percentShake } from "./draw/draw_ui";
+import { drawGameFinishScreen, drawOverlay } from "./draw/draw_ui";
 import { drawBackground, drawStage } from "./draw/draw_stage";
 import { drawDebug } from "./draw/debug";
-import { actions, specials } from "./actions";
-import { externalCharacterIDs } from "./characters";
-import { showDebug } from "./main";
+import { displayDebug } from "./main";
 
 export default function Game(replay) {
 
@@ -46,7 +44,7 @@ export default function Game(replay) {
     }
     drawOverlay(this, true, true);
 
-    if (showDebug) drawDebug(this);
+    if (displayDebug) drawDebug(this);
   }
 
   this.updateState = function() {
@@ -76,63 +74,9 @@ export default function Game(replay) {
       var prevState = prevFrame.players[p.playerIndex].post;
       var slp_input = this.currentFrame.players[p.playerIndex].pre;
 
-      p.input.setInput(slp_input);
-
-      if (p.stocks != state.stocksRemaining) lostStockQueue.push([p.port - 1, state.stocksRemaining, 0]);
-      if (p.percent != state.percent) percentShake(p, Math.abs(state.percent - p.percent)*8);
-
-      p.stocks = state.stocksRemaining;
-      //if (p.stocks <= 0) { finishGame(); return; }
-      p.percent = state.percent;
-
-      p.phys.pos.x = state.positionX;
-      p.phys.pos.y = state.positionY;
-      p.phys.posPrev.x = prevState.positionX;
-      p.phys.posPrev.y = prevState.positionY;
-      p.phys.posDelta.x = p.phys.pos.x - p.phys.posPrev.x;
-      p.phys.posDelta.y = p.phys.pos.y - p.phys.posPrev.y;
-      p.phys.face = state.facingDirection;
-      var actionID = state.actionStateId;
-      p.actionStateId = actionID;
-      p.actionStateCounter = state.actionStateCounter;
-      p.actionState = actions[actionID];
-
-      // THROWN STATES
-      if (actionID >= 0x0EF && actionID <= 0x0F3) {
-        p.actionState = p.actionState.substr(0, 6) + externalCharacterIDs[p.charID] + p.actionState.substr(6,10);
-      }
-
-      // SHIELD ON STATES
-      if (actionID >= 0x0B2 && actionID <= 0x0B6) {
-        p.shield.active = true;
-        p.shield.HP = state.shieldSize;
-        p.shield.size = (p.shield.HP / 60) * 7.7696875;
-        p.shield.stun = (actionID == 0x0B5) ? 1 : 0;
-        p.shield.analog = Math.max(p.input.rA, p.input.lA);
-        p.shield.positionReal = new Vec2D(0, 0);
-        if (!p.shield.stun) {
-          var x = p.input.lStick.x;
-          var y = p.input.lStick.y;
-          var offset = Math.sqrt(x * x + y * y) * 3;
-          var angle = Math.atan2(y, x);
-          p.shield.position =  new Vec2D(Math.cos(angle) * offset, Math.sin(angle) * offset);
-        }
-        p.shield.positionReal = new Vec2D(p.phys.pos.x + p.shield.position.x + (p.attributes.shieldOffset.x * p.phys.face / 4.5), p.phys.pos.y + p.shield.position.y + (p.attributes.shieldOffset.y / 4.5));
-      }
-      else {
-        p.shield.active = false;
-      }
-
-      //SPECIALS
-      if (actionID >= 341 && actionID <= 372) {
-        p.actionState = specials[externalCharacterIDs[p.charID]][actionID];
-      }
-
-      //DEAD
-      p.dead = (actionID >= 0x000 && actionID <= 0x003);
-
-      //STARKO
-      p.starKO = actionID == 0x004;
+      // TODO : need a better way to feed this the opponent
+      // need to feed opponent for thrown states, altho this may be tricky in teams
+      p.update(state, prevState, slp_input, this.players[1-i]);
 
     } 
   }
