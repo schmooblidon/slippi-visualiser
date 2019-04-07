@@ -2,7 +2,10 @@ import { playerObject } from "./player/player";
 import { renderPlayer } from "./draw/draw_player";
 import { Vec2D } from "./utils/Vec2D";
 import { drawBackground, drawStage, drawBackgroundInit, drawStageInit } from "./draw/draw_stage";
-import { setupLayers, setupFullscreenChange, setupElementInteractions, clearScreen } from "./draw/draw";
+import { setupLayers, clearScreen } from "./draw/draw";
+import { setupFullscreenChange } from "./draw/fullscreen";
+import { setupControlsBox } from "./draw/controls";
+import { showDebug, drawDebug } from "./draw/debug";
 import { renderOverlay, lostStockQueue, percentShake, gameFinishScreen } from "./draw/draw_ui";
 import { actions, specials } from "./actions";
 import { externalCharacterIDs, characters } from "./characters/characters";
@@ -41,34 +44,6 @@ function finishGame() {
   gameFinishScreen();
 }
 
-function restart() {
-  currentFrameIdx = -123;
-  paused = false;
-  finished = false;
-  playing = true;
-}
-
-function togglePause() {
-  paused ^= true;
-}
-
-function frameForward() {
-  paused = true;
-  if (!finished) {
-    currentFrameIdx++;
-    updateState();
-    renderState();
-  }
-}
-
-function frameBackward() {
-  paused = true;
-  finished = false;
-  currentFrameIdx = Math.max(-123, currentFrameIdx-1);
-  updateState();
-  renderState();
-}
-
 function gameTick (){
   setTimeout(gameTick, 16);
   if (!playing || finished || paused) return;
@@ -82,7 +57,7 @@ function renderTick () {
   renderState();
 }
 
-function renderState() {
+export function renderState() {
   clearScreen();
   drawBackground();
   drawStage();
@@ -91,29 +66,10 @@ function renderState() {
   }
   renderOverlay(true, true);
 
-  if (showDebug) drawDebug();
+  if (showDebug) drawDebug(currentFrameIdx);
 }
 
-let showDebug = false;
-
-function drawDebug() {
-  $("#currentFrame").text(currentFrameIdx.toString());
-  for (var i=0;i<playerAmount;i++) {
-    var p = players[i];
-    var port = p.port;
-    $("#p"+port+"_charname").text(p.charName);
-    $("#p"+port+"_action_id").text(p.actionStateId);
-    $("#p"+port+"_action_name").text(p.actionState);
-    $("#p"+port+"_action_counter").text(p.actionStateCounter);
-
-    $("#p"+port+"_input_lsX").text(p.input.lsX);
-    $("#p"+port+"_input_lsY").text(p.input.lsY);
-    $("#p"+port+"_input_l_trigger").text(p.input.lA);
-    $("#p"+port+"_input_r_trigger").text(p.input.rA);
-  }
-}
-
-function updateState() {
+export function updateState() {
   if (currentFrameIdx < 0) {
     startTimer = Math.abs(currentFrameIdx) * 0.01666667;
     matchTimer = 480;
@@ -198,45 +154,12 @@ function updateState() {
   }
 }
 
-// arrows only detect on keydown
-$(document).keydown(function(e) {
-  // RIGHT
-  if (e.which == 39) {
-    frameForward();
-  }
-  // LEFT
-  if (e.which == 37) {
-    frameBackward();
-  }
-});
-
-$(document).keypress(function(e) {
-  // ENTER
-  if (e.which == 13) {
-    togglePause();
-  }
-  // D
-  if (e.which == 68 || e.which == 100) {
-    showDebug ^= true;
-    if (showDebug) {
-      $("#debug").show();
-    }
-    else {
-      $("#debug").hide();
-    }
-  }
-  // R
-  if (e.which == 82 || e.which == 114) {
-    restart();
-  }
-});
-
 function start (){
   setupLayers();
 
   setupFullscreenChange();
   resize();
-  setupElementInteractions();
+  setupControlsBox();
 
   setVsStage(game.settings.stageId);
   buildPlayers();
