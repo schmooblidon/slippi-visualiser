@@ -92,7 +92,7 @@ export function resetLostStockQueue(){
     lostStockQueue = [];
 }
 
-export function percentShake (player,kb,i){
+export function percentShake (player,kb){
   var p = player;
   p.percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
   setTimeout(function(){p.percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);

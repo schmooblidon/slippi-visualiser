@@ -1,5 +1,3 @@
-export let showDebug = false;
-
 export function drawDebug(g) {
   $("#currentFrame").text(g.currentFrameIdx.toString());
   for (var i=0;i<g.playerAmount;i++) {
@@ -10,8 +8,8 @@ export function drawDebug(g) {
     $("#p"+port+"_action_name").text(p.actionState);
     $("#p"+port+"_action_counter").text(p.actionStateCounter);
 
-    $("#p"+port+"_input_lsX").text(p.input.lsX);
-    $("#p"+port+"_input_lsY").text(p.input.lsY);
+    $("#p"+port+"_input_lsX").text(p.input.lStick.x);
+    $("#p"+port+"_input_lsY").text(p.input.lStick.y);
     $("#p"+port+"_input_l_trigger").text(p.input.lA);
     $("#p"+port+"_input_r_trigger").text(p.input.rA);
   }

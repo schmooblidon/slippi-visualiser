@@ -3,7 +3,6 @@
 import Box2D from "../../utils/Box2D";
 import Vec2D from "../../utils/Vec2D";
 
-import {activeStage} from "../activeStage";
 //import {additionalOffset} from "../../physics/environmentalCollision";
 
 /*eslint indent:0*/ 

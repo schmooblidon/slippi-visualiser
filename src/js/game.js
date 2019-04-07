@@ -6,7 +6,10 @@ import { clearScreen } from "./draw/draw";
 import { drawPlayer } from "./draw/draw_player";
 import { drawGameFinishScreen, drawOverlay, lostStockQueue, percentShake } from "./draw/draw_ui";
 import { drawBackground, drawStage } from "./draw/draw_stage";
-import { showDebug, drawDebug } from "./draw/debug";
+import { drawDebug } from "./draw/debug";
+import { actions, specials } from "./actions";
+import { externalCharacterIDs } from "./characters";
+import { showDebug } from "./main";
 
 export default function Game(replay) {
 
@@ -39,11 +42,11 @@ export default function Game(replay) {
     drawBackground();
     drawStage(this.stage);
     for (var i = 0; i < this.playerAmount; i++) {
-      drawPlayer(this.players[i], this.stage);
+      drawPlayer(this, i);
     }
     drawOverlay(this, true, true);
 
-    if (showDebug) drawDebug(this.currentFrameIdx);
+    if (showDebug) drawDebug(this);
   }
 
   this.updateState = function() {
@@ -76,7 +79,7 @@ export default function Game(replay) {
       p.input.setInput(slp_input);
 
       if (p.stocks != state.stocksRemaining) lostStockQueue.push([p.port - 1, state.stocksRemaining, 0]);
-      if (p.percent != state.percent) percentShake(Math.abs(state.percent - p.percent)*8, i);
+      if (p.percent != state.percent) percentShake(p, Math.abs(state.percent - p.percent)*8);
 
       p.stocks = state.stocksRemaining;
       //if (p.stocks <= 0) { finishGame(); return; }
@@ -108,8 +111,8 @@ export default function Game(replay) {
         p.shield.analog = Math.max(p.input.rA, p.input.lA);
         p.shield.positionReal = new Vec2D(0, 0);
         if (!p.shield.stun) {
-          var x = p.input.lsX;
-          var y = p.input.lsY;
+          var x = p.input.lStick.x;
+          var y = p.input.lStick.y;
           var offset = Math.sqrt(x * x + y * y) * 3;
           var angle = Math.atan2(y, x);
           p.shield.position =  new Vec2D(Math.cos(angle) * offset, Math.sin(angle) * offset);

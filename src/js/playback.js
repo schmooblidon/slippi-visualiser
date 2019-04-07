@@ -1,4 +1,5 @@
 import { drawBackgroundInit, drawStageInit } from "./draw/draw_stage";
+import { curGame, showDebug } from "./main";
 
 export default function Playback(game) {
   this.game = game;
@@ -8,25 +9,12 @@ export default function Playback(game) {
 
   this.start = function() {
     drawBackgroundInit();
-    drawStageInit();
+    drawStageInit(this.game.stage);
 
     this.playing = true;
-    this.gameTick();
-    this,renderTick();
+    gameTick();
+    renderTick();
   }
-
-  this.gameTick = function(){
-    setTimeout(this.gameTick, 16);
-    if (!this.playing || this.finished || this.paused) return;
-    this.game.currentFrameIdx++;
-    this.game.updateState();
-  },
-
-  this.renderTick = function() {
-    window.requestAnimationFrame(this.renderTick);
-    if (!this.playing || this.finished) return;
-    this.game.renderState();
-  },
 
   this.restart = function() {
     this.game.currentFrameIdx = -123;
@@ -51,47 +39,27 @@ export default function Playback(game) {
   this.frameBackward = function() {
     this.paused = true;
     this.finished = false;
-    this.game.currentFrameIdx = Math.max(-123, this.game..currentFrameIdx-1);
+    this.game.currentFrameIdx = Math.max(-123, this.game.currentFrameIdx-1);
     this.game.updateState();
     this.game.renderState();
   }
 }
 
-// arrows only detect on keydown
-$(document).keydown(function(e) {
-  // RIGHT
-  if (e.which == 39) {
-    frameForward();
-  }
-  // LEFT
-  if (e.which == 37) {
-    frameBackward();
-  }
-});
+function gameTick(){
+  setTimeout(gameTick, 16);
+  if (!curGame.playback.playing || curGame.playback.finished || curGame.playback.paused) return;
+  curGame.currentFrameIdx++;
+  curGame.updateState();
+};
 
-$(document).keypress(function(e) {
-  // ENTER
-  if (e.which == 13) {
-    togglePause();
-  }
-  // D
-  if (e.which == 68 || e.which == 100) {
-    showDebug ^= true;
-    if (showDebug) {
-      $("#debug").show();
-    }
-    else {
-      $("#debug").hide();
-    }
-  }
-  // R
-  if (e.which == 82 || e.which == 114) {
-    restart();
-  }
-});
+function renderTick() {
+  window.requestAnimationFrame(renderTick);
+  if (!curGame.playback.playing || curGame.playback.finished) return;
+  curGame.renderState();
+};
 
 function positionSliderChange(event, ui) {
-  currentFrameIdx = ui.value;
+  curGame.currentFrameIdx = ui.value;
 }
 
 export function setupSlider() {

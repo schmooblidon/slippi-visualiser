@@ -1,8 +1,5 @@
-
-import {activeStage} from "../activeStage";
-import {player} from "../../main";
-import {Box2D} from "../../utils/Box2D";
-import {Vec2D} from "../../utils/Vec2D";
+import Box2D from "../../utils/Box2D";
+import Vec2D from "../../utils/Vec2D";
 
 /*eslint indent:0*/ 
 
@@ -39,7 +36,7 @@ export default {
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], null]], [[null,null],[null,null],[null,null],[null,null] ]],
   movingPlats: [0],
   movingPlatforms: function () {
-    const plat = activeStage.platform[0];
+    const plat = this.platform[0];
     let move = [0, 0];
     if (plat[0].x <= -103.6 && plat[0].y > -33.25) {
       plat[0].x = -103.6;

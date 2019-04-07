@@ -1,7 +1,7 @@
 import { fg2, drawArrayPathCompress } from "./draw";
 import makeColour from "../utils/makeColour";
 import Vec2D from "../utils/Vec2D";
-import { externalCharacterIDs } from "../characters/characters";
+import { externalCharacterIDs } from "../characters";
 
 export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206, 111, ","rgb(244, 68, 68)","rgba(255, 225, 167, "],
 ["rgb(95, 216, 84)","rgb(184, 253, 154)","rgba(252, 95, 95, ","rgb(255, 182, 96)","rgba(254, 141, 141, "],
@@ -14,10 +14,12 @@ export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206
 const twoPi = Math.PI * 2;
 
 // takes in player and stage
-export function drawPlayer(p, stage) {
+export function drawPlayer(g, i) {
+    var stage = g.stage;
+    var p = g.players[i];
     if (p.dead) return;
     var temX = (p.phys.pos.x * stage.scale) + stage.offset.x;
-    var temY = (p.phys.pos.y * -stage.scale) + stage.offset,y;
+    var temY = (p.phys.pos.y * -stage.scale) + stage.offset.y;
     var face = p.phys.face;
     var frame = Math.floor(p.actionStateCounter);
     if (frame == 0) {
@@ -123,7 +125,7 @@ export function drawPlayer(p, stage) {
         if (p.actionState == "ENTRANCE") {
             drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (stage.scale /
                 4.5), Math.min(p.attributes.scale, p.attributes.scale * (2.05 -
-                    startTimer)) * (stage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
+                    g.startTimer)) * (stage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
                 .y);
         } else {
             var scale = 1;
