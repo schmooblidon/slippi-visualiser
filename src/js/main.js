@@ -170,6 +170,6 @@ function start (){
   gameTick();
   renderTick();
 
-  restart();
+  playing = true;
 }
 window.start = start;
