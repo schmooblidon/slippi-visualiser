@@ -1,5 +1,5 @@
-import {Box2D} from "../../utils/Box2D";
-import {Vec2D} from "../../utils/Vec2D";
+import Box2D from "../../utils/Box2D";
+import Vec2D from "../../utils/Vec2D";
 
 /*eslint indent:0*/ 
 
@@ -22,7 +22,7 @@ export default {
   ledge: [["ground", 0, 0], ["ground", 0, 1]],
   ledgePos: [new Vec2D(-77.25, 0), new Vec2D(77.25, 0)],
   scale: 3.5,
-  offset: [600, 500],
+  offset: new Vec2D(600, 500),
   movingPlats: [],
   movingPlatforms: function () {
   }

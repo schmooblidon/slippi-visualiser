@@ -1,6 +1,5 @@
-import { Vec2D } from "../utils/Vec2D";
+import Vec2D from "../utils/Vec2D";
 import { euclideanDist } from "../utils/linAlg";
-import { activeStage } from "../stages/activeStage";
 import { layers, fg1, fg2, bg1, bg2, rotateVector } from "./draw";
 
 const twoPi = Math.PI * 2;
@@ -29,66 +28,66 @@ randall[1].src = "assets/stage/randall2.png";
 randall[2].src = "assets/stage/randall3.png";
 let randallTimer = 0;
 
-export function drawStageInit() {
+export function drawStageInit(stage) {
   fg1.strokeStyle = "#db80cc";
   fg1.lineWidth = 1;
   
-  for (let j = 0; j < activeStage.ground.length; j++) {
+  for (let j = 0; j < stage.ground.length; j++) {
     fg1.beginPath();
-    fg1.moveTo((activeStage.ground[j][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.ground[j][0].y * -activeStage.scale) + activeStage.offset[1]);
-    fg1.lineTo((activeStage.ground[j][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.ground[j][1].y * -activeStage.scale) + activeStage.offset[1]);
+    fg1.moveTo((stage.ground[j][0].x * stage.scale) + stage.offset.x, (stage.ground[j][0].y * -stage.scale) + stage.offset.y);
+    fg1.lineTo((stage.ground[j][1].x * stage.scale) + stage.offset.x, (stage.ground[j][1].y * -stage.scale) + stage.offset.y);
     fg1.closePath();
     fg1.stroke();
   }
   fg1.strokeStyle = "#ed6767";
-  for (let j = 0; j < activeStage.ceiling.length; j++) {
+  for (let j = 0; j < stage.ceiling.length; j++) {
     fg1.beginPath();
-    fg1.moveTo((activeStage.ceiling[j][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.ceiling[j][0].y * -activeStage.scale) + activeStage.offset[1]);
-    fg1.lineTo((activeStage.ceiling[j][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.ceiling[j][1].y * -activeStage.scale) + activeStage.offset[1]);
+    fg1.moveTo((stage.ceiling[j][0].x * stage.scale) + stage.offset.x, (stage.ceiling[j][0].y * -stage.scale) + stage.offset.y);
+    fg1.lineTo((stage.ceiling[j][1].x * stage.scale) + stage.offset.x, (stage.ceiling[j][1].y * -stage.scale) + stage.offset.y);
     fg1.closePath();
     fg1.stroke();
   }
 
   fg1.strokeStyle = "#4794c6";
-  for (let j = 0; j < activeStage.platform.length; j++) {
-    if (activeStage.movingPlats === null || activeStage.movingPlats === undefined || activeStage.movingPlats.indexOf(j) === -1){ // not a moving platform
+  for (let j = 0; j < stage.platform.length; j++) {
+    if (stage.movingPlats === null || stage.movingPlats === undefined || stage.movingPlats.indexOf(j) === -1){ // not a moving platform
       fg1.beginPath();
-      fg1.moveTo((activeStage.platform[j][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.platform[j][0].y * -activeStage.scale) + activeStage.offset[1]);
-      fg1.lineTo((activeStage.platform[j][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.platform[j][1].y * -activeStage.scale) + activeStage.offset[1]);
+      fg1.moveTo((stage.platform[j][0].x * stage.scale) + stage.offset.x, (stage.platform[j][0].y * -stage.scale) + stage.offset.y);
+      fg1.lineTo((stage.platform[j][1].x * stage.scale) + stage.offset.x, (stage.platform[j][1].y * -stage.scale) + stage.offset.y);
       fg1.closePath();
       fg1.stroke();
     }
   }
   
   fg1.strokeStyle = "#47c648";
-  for (let k = 0; k < activeStage.wallL.length; k++) {
+  for (let k = 0; k < stage.wallL.length; k++) {
     fg1.beginPath();
-    fg1.moveTo((activeStage.wallL[k][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.wallL[k][0].y * -activeStage.scale) + activeStage.offset[1]);
-    fg1.lineTo((activeStage.wallL[k][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.wallL[k][1].y * -activeStage.scale) + activeStage.offset[1]);
+    fg1.moveTo((stage.wallL[k][0].x * stage.scale) + stage.offset.x, (stage.wallL[k][0].y * -stage.scale) + stage.offset.y);
+    fg1.lineTo((stage.wallL[k][1].x * stage.scale) + stage.offset.x, (stage.wallL[k][1].y * -stage.scale) + stage.offset.y);
     fg1.closePath();
     fg1.stroke();
   }
   fg1.strokeStyle = "#9867de";
-  for (let l = 0; l < activeStage.wallR.length; l++) {
+  for (let l = 0; l < stage.wallR.length; l++) {
     fg1.beginPath();
-    fg1.moveTo((activeStage.wallR[l][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.wallR[l][0].y * -activeStage.scale) + activeStage.offset[1]);
-    fg1.lineTo((activeStage.wallR[l][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.wallR[l][1].y * -activeStage.scale) + activeStage.offset[1]);
+    fg1.moveTo((stage.wallR[l][0].x * stage.scale) + stage.offset.x, (stage.wallR[l][0].y * -stage.scale) + stage.offset.y);
+    fg1.lineTo((stage.wallR[l][1].x * stage.scale) + stage.offset.x, (stage.wallR[l][1].y * -stage.scale) + stage.offset.y);
     fg1.closePath();
     fg1.stroke();
   }
   fg1.strokeStyle = "#E7A44C";
   fg1.lineWidth = 2;
-  for (let i=0;i<activeStage.ledge.length;i++){
-    const e = activeStage.ledge[i];
-    const pA = activeStage[e[0]][e[1]][e[2]];
-    const pB = activeStage[e[0]][e[1]][1-e[2]];
+  for (let i=0;i<stage.ledge.length;i++){
+    const e = stage.ledge[i];
+    const pA = stage[e[0]][e[1]][e[2]];
+    const pB = stage[e[0]][e[1]][1-e[2]];
     const ang = Math.atan2((pB.y - pA.y) , (pB.x - pA.x));
     const magnitude = euclideanDist(pA, pB);
-    const length = Math.min(0.4 * magnitude, 20 / activeStage.scale);
+    const length = Math.min(0.4 * magnitude, 20 / stage.scale);
     const pC = new Vec2D(pA.x + length * Math.cos(ang), pA.y + length * Math.sin(ang));
     fg1.beginPath();
-    fg1.moveTo((pA.x * activeStage.scale) + activeStage.offset[0], (pA.y * -activeStage.scale) + activeStage.offset[1]);
-    fg1.lineTo((pC.x * activeStage.scale) + activeStage.offset[0], (pC.y * -activeStage.scale) + activeStage.offset[1]);
+    fg1.moveTo((pA.x * stage.scale) + stage.offset.x, (pA.y * -stage.scale) + stage.offset.y);
+    fg1.lineTo((pC.x * stage.scale) + stage.offset.x, (pC.y * -stage.scale) + stage.offset.y);
     fg1.closePath();
     fg1.stroke();
   }
@@ -142,30 +141,30 @@ function drawDamageLine(type,can,stage){
     if (surfaceProperties !== undefined && surfaceProperties.damageType !== null) {
       can.strokeStyle = wallColourFromDamageType(surfaceProperties.damageType);
       can.beginPath();
-      can.moveTo((stage[type][i][0].x * stage.scale) + stage.offset[0], (stage[type][i][0].y * -stage.scale) + stage.offset[1]);
-      can.lineTo((stage[type][i][1].x * stage.scale) + stage.offset[0], (stage[type][i][1].y * -stage.scale) + stage.offset[1]);
+      can.moveTo((stage[type][i][0].x * stage.scale) + stage.offset.x, (stage[type][i][0].y * -stage.scale) + stage.offset.y);
+      can.lineTo((stage[type][i][1].x * stage.scale) + stage.offset.x, (stage[type][i][1].y * -stage.scale) + stage.offset.y);
       can.stroke();
     }
   }
 }
 
-export function drawStage() {
+export function drawStage(stage) {
   calculateDamageWallColours();
-  if (activeStage.name === "ystory") {
+  if (stage.name === "ystory") {
     // Randall
     randallTimer++;
     if (randallTimer === 30){
       randallTimer = 0;
     }
-    bg2.drawImage(randall[Math.floor(randallTimer/10)],(activeStage.platform[0][0].x * activeStage.scale) + activeStage.offset[0]-20, (activeStage.platform[0][0].y * -activeStage.scale) + activeStage.offset[1]-20,100,100);
+    bg2.drawImage(randall[Math.floor(randallTimer/10)],(stage.platform[0][0].x * stage.scale) + stage.offset.x-20, (stage.platform[0][0].y * -stage.scale) + stage.offset.y-20,100,100);
   }
-  else if (activeStage.movingPlats !== null && activeStage.movingPlats !== undefined && activeStage.movingPlats.length !== 0) {
+  else if (stage.movingPlats !== null && stage.movingPlats !== undefined && stage.movingPlats.length !== 0) {
     fg2.strokeStyle = "#4794c6";
-    for (let i = 0; i < activeStage.movingPlats.length; i++) {
-      if (activeStage.name !== "fountain" || activeStage.platform[activeStage.movingPlats[i]][0].y > 0) {
+    for (let i = 0; i < stage.movingPlats.length; i++) {
+      if (stage.name !== "fountain" || stage.platform[stage.movingPlats[i]][0].y > 0) {
         fg2.beginPath();
-        fg2.moveTo((activeStage.platform[activeStage.movingPlats[i]][0].x * activeStage.scale) + activeStage.offset[0], (activeStage.platform[activeStage.movingPlats[i]][0].y * -activeStage.scale) + activeStage.offset[1]);
-        fg2.lineTo((activeStage.platform[activeStage.movingPlats[i]][1].x * activeStage.scale) + activeStage.offset[0], (activeStage.platform[activeStage.movingPlats[i]][1].y * -activeStage.scale) + activeStage.offset[1]);
+        fg2.moveTo((stage.platform[stage.movingPlats[i]][0].x * stage.scale) + stage.offset.x, (stage.platform[stage.movingPlats[i]][0].y * -stage.scale) + stage.offset.y);
+        fg2.lineTo((stage.platform[stage.movingPlats[i]][1].x * stage.scale) + stage.offset.x, (stage.platform[stage.movingPlats[i]][1].y * -stage.scale) + stage.offset.y);
         fg2.closePath();
         fg2.stroke();
       }
@@ -173,47 +172,47 @@ export function drawStage() {
   }
   fg2.fillStyle = boxFill;
 
-  if (activeStage.box !== null && activeStage.box !== undefined) {
-    for (let j = 0; j < activeStage.box.length; j++) {
-      fg2.fillRect((activeStage.box[j].min.x * activeStage.scale) + activeStage.offset[0], (activeStage.box[j].max.y * -activeStage.scale) + activeStage.offset[1], (activeStage.box[j].max.x - activeStage.box[j].min.x) * activeStage.scale, (activeStage.box[j].max.y - activeStage.box[j].min.y) * activeStage.scale);
+  if (stage.box !== null && stage.box !== undefined) {
+    for (let j = 0; j < stage.box.length; j++) {
+      fg2.fillRect((stage.box[j].min.x * stage.scale) + stage.offset.x, (stage.box[j].max.y * -stage.scale) + stage.offset.y, (stage.box[j].max.x - stage.box[j].min.x) * stage.scale, (stage.box[j].max.y - stage.box[j].min.y) * stage.scale);
     }
   }
-  if (activeStage.polygon !== null && activeStage.polygon !== undefined) {
-    for (let j=0;j<activeStage.polygon.length;j++){
-      const p = activeStage.polygon[j];
+  if (stage.polygon !== null && stage.polygon !== undefined) {
+    for (let j=0;j<stage.polygon.length;j++){
+      const p = stage.polygon[j];
       fg2.beginPath();
-      fg2.moveTo(p[0].x* activeStage.scale + activeStage.offset[0], p[0].y* -activeStage.scale + activeStage.offset[1]);
+      fg2.moveTo(p[0].x* stage.scale + stage.offset.x, p[0].y* -stage.scale + stage.offset.y);
       for (let n=1;n<p.length;n++) {
-        fg2.lineTo(p[n].x * activeStage.scale + activeStage.offset[0], p[n].y* -activeStage.scale + activeStage.offset[1]);
+        fg2.lineTo(p[n].x * stage.scale + stage.offset.x, p[n].y* -stage.scale + stage.offset.y);
       }
       fg2.closePath();
       fg2.fill();
     }
   }
-  if (activeStage.background !== null && activeStage.background !== undefined) {
-    if (activeStage.background.polygon !== null && activeStage.background.polygon !== undefined) {
+  if (stage.background !== null && stage.background !== undefined) {
+    if (stage.background.polygon !== null && stage.background.polygon !== undefined) {
       bg2.save();
       bg2.fillStyle = boxFillBG;
-      for (let i=0;i<activeStage.background.polygon.length;i++) {   
-        const p = activeStage.background.polygon[i];
+      for (let i=0;i<stage.background.polygon.length;i++) {   
+        const p = stage.background.polygon[i];
         bg2.beginPath();
-        bg2.moveTo(p[0].x * activeStage.scale + activeStage.offset[0],p[0].y * -activeStage.scale + activeStage.offset[1]);
+        bg2.moveTo(p[0].x * stage.scale + stage.offset.x,p[0].y * -stage.scale + stage.offset.y);
         for (let n=1;n<p.length;n++) {
-          bg2.lineTo(p[n].x * activeStage.scale + activeStage.offset[0],p[n].y * -activeStage.scale + activeStage.offset[1]);
+          bg2.lineTo(p[n].x * stage.scale + stage.offset.x,p[n].y * -stage.scale + stage.offset.y);
         }
         bg2.closePath();
         bg2.fill();
       }
     }
-    if (activeStage.background.line !== null && activeStage.background.line !== undefined) {
+    if (stage.background.line !== null && stage.background.line !== undefined) {
       bg2.lineWidth = 3;
       bg2.strokeStyle = boxFillBG;
-      for (let i=0;i<activeStage.background.line.length;i++){
-        const lL = activeStage.background.line[i][0];
-        const lR = activeStage.background.line[i][1];
+      for (let i=0;i<stage.background.line.length;i++){
+        const lL = stage.background.line[i][0];
+        const lR = stage.background.line[i][1];
         bg2.beginPath();
-        bg2.moveTo(lL.x * activeStage.scale + activeStage.offset[0], lL.y * -activeStage.scale + activeStage.offset[1]);
-        bg2.lineTo(lR.x * activeStage.scale + activeStage.offset[0], lR.y * -activeStage.scale + activeStage.offset[1]);
+        bg2.moveTo(lL.x * stage.scale + stage.offset.x, lL.y * -stage.scale + stage.offset.y);
+        bg2.lineTo(lR.x * stage.scale + stage.offset.x, lR.y * -stage.scale + stage.offset.y);
         bg2.closePath();
         bg2.stroke();
       }
@@ -223,7 +222,7 @@ export function drawStage() {
   fg2.lineWidth = 4;
   const types = ["wallL", "wallR", "ground", "ceiling"];
   for (let i=0;i<types.length;i++) {
-    drawDamageLine(types[i],fg2,activeStage);
+    drawDamageLine(types[i],fg2,stage);
   }
 
   fg2.strokeStyle = "#e7a44c";

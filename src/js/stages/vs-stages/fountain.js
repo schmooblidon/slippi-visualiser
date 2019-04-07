@@ -1,10 +1,9 @@
 // @flow
 
-import {Box2D} from "../../utils/Box2D";
-import {Vec2D} from "../../utils/Vec2D";
+import Box2D from "../../utils/Box2D";
+import Vec2D from "../../utils/Vec2D";
 
 import {activeStage} from "../activeStage";
-import {player} from "../../main";
 //import {additionalOffset} from "../../physics/environmentalCollision";
 
 /*eslint indent:0*/ 
@@ -109,7 +108,7 @@ export default {
   ledge: [["ground", 0, 0], ["ground", 4, 1]],
   ledgePos: [new Vec2D(-66.35, 0.62), new Vec2D(66.35, 0.62)],
   scale: 5,
-  offset: [600, 450],
+  offset: new Vec2D(600, 450),
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], ["g",3]],[["g",2], ["g",4]], [["g",3], null]], [[null,null],[null,null],[null,null]]],
   movingPlats: [1,2],
   movingPlatforms: function () {

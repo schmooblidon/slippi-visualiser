@@ -1,4 +1,4 @@
-import { Vec2D } from "../utils/Vec2D";
+import Vec2D from "../utils/Vec2D";
 
 // SETUP LAYERS
 export let bg1 = 0;

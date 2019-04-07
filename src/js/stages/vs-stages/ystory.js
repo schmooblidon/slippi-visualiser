@@ -35,7 +35,7 @@ export default {
   ledge: [["ground", 0, 0], ["ground", 2, 1]],
   ledgePos: [new Vec2D(-56, -3.5), new Vec2D(56, -3.5)],
   scale: 5,
-  offset: [600, 430],
+  offset: new Vec2D(600, 430),
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], null]], [[null,null],[null,null],[null,null],[null,null] ]],
   movingPlats: [0],
   movingPlatforms: function () {

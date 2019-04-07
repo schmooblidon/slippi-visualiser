@@ -1,8 +1,6 @@
-import { players, startTimer } from "../main";
-import { activeStage } from "../stages/activeStage";
 import { fg2, drawArrayPathCompress } from "./draw";
-import { makeColour } from "../utils/makeColour";
-import { Vec2D } from "../utils/Vec2D";
+import makeColour from "../utils/makeColour";
+import Vec2D from "../utils/Vec2D";
 import { externalCharacterIDs } from "../characters/characters";
 
 export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206, 111, ","rgb(244, 68, 68)","rgba(255, 225, 167, "],
@@ -15,11 +13,11 @@ export const palettes = [["rgb(250, 89, 89)","rgb(255, 170, 170)","rgba(255, 206
 
 const twoPi = Math.PI * 2;
 
-export function renderPlayer(i) {
-    var p = players[i];
+// takes in player and stage
+export function drawPlayer(p, stage) {
     if (p.dead) return;
-    var temX = (p.phys.pos.x * activeStage.scale) + activeStage.offset[0];
-    var temY = (p.phys.pos.y * -activeStage.scale) + activeStage.offset[1];
+    var temX = (p.phys.pos.x * stage.scale) + stage.offset.x;
+    var temY = (p.phys.pos.y * -stage.scale) + stage.offset,y;
     var face = p.phys.face;
     var frame = Math.floor(p.actionStateCounter);
     if (frame == 0) {
@@ -91,12 +89,12 @@ export function renderPlayer(i) {
                 } else if (temX > 1150) {
                     p.miniViewPoint = new Vec2D(1150, 700);
                 } else {
-                    //p.miniViewPoint = new Vec2D(375/s+stage.offset[0],700);
+                    //p.miniViewPoint = new Vec2D(375/s+stage.offset.x,700);
                     p.miniViewPoint = new Vec2D(temX, 700);
                 }
                 p.miniViewSide = 2;
             } else {
-                p.miniViewPoint = new Vec2D(-375 / s + activeStage.offset[0], 50);
+                p.miniViewPoint = new Vec2D(-375 / s + stage.offset.x, 50);
                 p.miniViewSide = 2;
             }
             p.miniView = true;
@@ -123,30 +121,30 @@ export function renderPlayer(i) {
             .x, p.rotationPoint.y);
     } else {    
         if (p.actionState == "ENTRANCE") {
-            drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (activeStage.scale /
+            drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (stage.scale /
                 4.5), Math.min(p.attributes.scale, p.attributes.scale * (2.05 -
-                    startTimer)) * (activeStage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
+                    startTimer)) * (stage.scale / 4.5), p.rotation, p.rotationPoint.x, p.rotationPoint
                 .y);
         } else {
             var scale = 1;
             if (p.starKO) {
                 scale = 0.25;
             }
-            drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (activeStage.scale /
-                4.5) * scale, p.attributes.scale * (activeStage.scale / 4.5) * scale, p.rotation, p.rotationPoint
+            drawArrayPathCompress(fg2, col, face, temX, temY, model, p.attributes.scale * (stage.scale /
+                4.5) * scale, p.attributes.scale * (stage.scale / 4.5) * scale, p.rotation, p.rotationPoint
                 .x, p.rotationPoint.y);
         }
 
         if (p.shield.active) {
-            var sX = ((p.shield.positionReal.x) * activeStage.scale) + activeStage.offset[0];
-            var sY = ((p.shield.positionReal.y) * -activeStage.scale) + activeStage.offset[1];
+            var sX = ((p.shield.positionReal.x) * stage.scale) + stage.offset.x;
+            var sY = ((p.shield.positionReal.y) * -stage.scale) + stage.offset.y;
             var sCol = palette[2];
             if (Math.floor(p.shield.stun) > 0) {
                 sCol = palette[4];
             }
             fg2.fillStyle = sCol + (0.6 * p.shield.analog) + ")";
             fg2.beginPath();
-            fg2.arc(sX, sY, p.shield.size * activeStage.scale, twoPi, 0);
+            fg2.arc(sX, sY, p.shield.size * stage.scale, twoPi, 0);
             fg2.fill();
         }
         if (p.hasNametag) {
@@ -154,17 +152,17 @@ export function renderPlayer(i) {
             fg2.strokeStyle = palette[0];
             fg2.lineWidth = 1;
             var size = 10 * p.nametag.length
-            fg2.fillRect(temX - size / 2, temY - 130 * (activeStage.scale / 4.5), size, 20);
-            fg2.strokeRect(temX - size / 2, temY - 130 * (activeStage.scale / 4.5), size, 20);
+            fg2.fillRect(temX - size / 2, temY - 130 * (stage.scale / 4.5), size, 20);
+            fg2.strokeRect(temX - size / 2, temY - 130 * (stage.scale / 4.5), size, 20);
             fg2.font = "13px Lucida Console, monaco, monospace";
             fg2.textAlign = "center";
             fg2.fillStyle = "white";
-            fg2.fillText(p.nametag, temX, temY + 15 - 130 * (activeStage.scale / 4.5));
+            fg2.fillText(p.nametag, temX, temY + 15 - 130 * (stage.scale / 4.5));
             fg2.fillStyle = palette[0];
             fg2.beginPath();
-            fg2.moveTo(temX - 8, temY + 20 - 130 * (activeStage.scale / 4.5));
-            fg2.lineTo(temX + 8, temY + 20 - 130 * (activeStage.scale / 4.5));
-            fg2.lineTo(temX, temY + 28 - 130 * (activeStage.scale / 4.5));
+            fg2.moveTo(temX - 8, temY + 20 - 130 * (stage.scale / 4.5));
+            fg2.lineTo(temX + 8, temY + 20 - 130 * (stage.scale / 4.5));
+            fg2.lineTo(temX, temY + 28 - 130 * (stage.scale / 4.5));
             fg2.closePath();
             fg2.fill();
             fg2.textAlign = "start";
@@ -175,10 +173,10 @@ export function renderPlayer(i) {
         fg2.strokeStyle = palette[0];
         fg2.lineWidth = 1;
         fg2.beginPath();
-        fg2.moveTo(temX + 18 * (activeStage.scale / 4.5), temY + 13.5 * (activeStage.scale / 4.5));
-        fg2.lineTo(temX + 31.5 * (activeStage.scale / 4.5), temY);
-        fg2.lineTo(temX - 31.5 * (activeStage.scale / 4.5), temY);
-        fg2.lineTo(temX - 18 * (activeStage.scale / 4.5), temY + 13.5 * (activeStage.scale / 4.5));
+        fg2.moveTo(temX + 18 * (stage.scale / 4.5), temY + 13.5 * (stage.scale / 4.5));
+        fg2.lineTo(temX + 31.5 * (stage.scale / 4.5), temY);
+        fg2.lineTo(temX - 31.5 * (stage.scale / 4.5), temY);
+        fg2.lineTo(temX - 18 * (stage.scale / 4.5), temY + 13.5 * (stage.scale / 4.5));
         fg2.closePath();
         fg2.fill();
         fg2.stroke();

@@ -1,12 +1,11 @@
 import { ui, fg2 } from "./draw";
-import { players, playerAmount, matchTimer } from "../main";
 import { palettes } from "./draw_player";
-import { Vec2D } from "../utils/Vec2D";
+import Vec2D from "../utils/Vec2D";
 
 export let lostStockQueue = [];
 const twoPi = Math.PI * 2;
 
-export function renderOverlay(showMatchTimer, showStock) {
+export function drawOverlay(game, showMatchTimer, showStock) {
 
     // stocks, percent, timer
     ui.strokeStyle = "black";
@@ -15,8 +14,8 @@ export function renderOverlay(showMatchTimer, showStock) {
         ui.lineWidth = 2;
         ui.font = "900 40px Arial";
         ui.textAlign = "center";
-        var min = (Math.floor(matchTimer / 60)).toString();
-        var sec = (matchTimer % 60).toFixed(2);
+        var min = (Math.floor(game.matchTimer / 60)).toString();
+        var sec = (game.matchTimer % 60).toFixed(2);
         ui.fillText(((min.length < 2) ? "0" + min : min) + ":" + ((sec.length < 5) ? "0" + sec[0] : sec[0] + sec[1]), 590,
             70);
         ui.strokeText(((min.length < 2) ? "0" + min : min) + ":" + ((sec.length < 5) ? "0" + sec[0] : sec[0] + sec[1]),
@@ -31,8 +30,8 @@ export function renderOverlay(showMatchTimer, showStock) {
         ui.textAlign = "end";
         ui.save();
         ui.scale(0.8, 1);
-        for (var i = 0; i < playerAmount; i++) {
-            var p = players[i];
+        for (var i = 0; i < game.playerAmount; i++) {
+            var p = game.players[i];
             var portNum = p.port - 1;
             ui.fillStyle = "rgb(255," + Math.max(255 - p.percent, 0) + ", " + Math.max(255 - p.percent, 0) +
                 ")";
@@ -42,10 +41,10 @@ export function renderOverlay(showMatchTimer, showStock) {
                 p.percentShake.y);
         }
         ui.restore();
-        for (var i = 0; i < playerAmount; i++) {
-            ui.fillStyle = palettes[players[i].playerIndex][0];
-            var portNum = players[i].port - 1;
-            for (var j = 0; j < players[i].stocks; j++) {
+        for (var i = 0; i < game.playerAmount; i++) {
+            ui.fillStyle = palettes[game.players[i].playerIndex][0];
+            var portNum = game.players[i].port - 1;
+            for (var j = 0; j < game.players[i].stocks; j++) {
                 ui.beginPath();
                 ui.arc(337 + portNum * 145 + j * 30, 600, 12, 0, twoPi);
                 ui.closePath();
@@ -93,8 +92,8 @@ export function resetLostStockQueue(){
     lostStockQueue = [];
 }
 
-export function percentShake (kb,i){
-  var p = players[i];
+export function percentShake (player,kb,i){
+  var p = player;
   p.percentShake = new Vec2D(kb*0.1*Math.random(),kb*0.1*Math.random());
   setTimeout(function(){p.percentShake = new Vec2D(kb*0.05*Math.random(),kb*0.05*Math.random())},20);
   setTimeout(function(){p.percentShake = new Vec2D(-kb*0.1*Math.random(),-kb*0.1*Math.random())},40);
@@ -102,14 +101,14 @@ export function percentShake (kb,i){
   setTimeout(function(){p.percentShake = new Vec2D(0,0)},80);
 }
 
-export function gameFinishScreen() {
+export function drawGameFinishScreen(game) {
   fg2.save();
   fg2.textAlign = "center";
   var text = "Game!";
   var size = 300;
   var textScale = 1;
   var textGrad = fg2.createLinearGradient(0, 200, 0, 520);
-  if (matchTimer <= 0) {
+  if (game.matchTimer <= 0) {
     text = "Time!";
     //sounds.time.play();
     textGrad.addColorStop(0, "black");

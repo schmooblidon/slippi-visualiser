@@ -1,11 +1,9 @@
-import { players, playerAmount } from "../main";
-
 export let showDebug = false;
 
-export function drawDebug(currentFrameIdx) {
-  $("#currentFrame").text(currentFrameIdx.toString());
-  for (var i=0;i<playerAmount;i++) {
-    var p = players[i];
+export function drawDebug(g) {
+  $("#currentFrame").text(g.currentFrameIdx.toString());
+  for (var i=0;i<g.playerAmount;i++) {
+    var p = g.players[i];
     var port = p.port;
     $("#p"+port+"_charname").text(p.charName);
     $("#p"+port+"_action_id").text(p.actionStateId);
