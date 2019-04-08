@@ -30,12 +30,11 @@ export default function Playback(game) {
 
   this.frameForward = function(){
     this.paused = true;
-    if (!this.finished) {
-      this.game.currentFrameIdx++;
-      this.game.updateState();
-      this.game.renderState();
-      $('input[type="range"]').val(this.game.currentFrameIdx).change();
-    }
+    if (this.finished) return;
+    this.game.currentFrameIdx++;
+    this.game.updateState();
+    this.game.renderState();
+    $('input[type="range"]').val(this.game.currentFrameIdx).change();
   }
 
   this.frameBackward = function() {

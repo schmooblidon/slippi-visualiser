@@ -66,6 +66,7 @@ export function setupControls() {
         if (!(curGame.currentFrameIdx >= curGame.lastFrame)) {
           curGame.playback.finished = false;
         }
+        if (curGame.playback.finished) return;
         curGame.updateState();
         curGame.renderState();
       }
@@ -78,6 +79,7 @@ export function setupControls() {
       if (!(curGame.currentFrameIdx >= curGame.lastFrame)) {
         curGame.playback.finished = false;
       }
+      if (curGame.playback.finished) return;
       curGame.updateState();
       curGame.renderState();
     }

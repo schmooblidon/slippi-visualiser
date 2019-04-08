@@ -37,6 +37,7 @@ export default function Game(replay) {
   }
 
   this.renderState = function() {
+    if (this.playback.finished) return;
     clearScreen();
     drawBackground();
     drawStage(this.stage);
@@ -49,6 +50,12 @@ export default function Game(replay) {
   }
 
   this.updateState = function() {
+
+    if (this.currentFrameIdx > this.lastFrame) {
+      this.currentFrameIdx = this.lastFrame;
+      this.finishGame();
+      return;
+    }
 
     // start timer ticks from frame -123 to 0
     if (this.currentFrameIdx < 0) {
