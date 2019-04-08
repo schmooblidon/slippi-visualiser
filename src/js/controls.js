@@ -33,7 +33,66 @@ export function setupControls() {
       curGame.playback.restart();
     }
   });
- }
+
+  $('input[type="range"]').prop({
+      'min': -123,
+      'max': curGame.lastFrame
+  });
+
+  // setup slider
+  $('input[type="range"]').rangeslider({
+
+    polyfill: false,
+
+    // Default CSS classes
+    rangeClass: 'rangeslider',
+    disabledClass: 'rangeslider--disabled',
+    horizontalClass: 'rangeslider--horizontal',
+    verticalClass: 'rangeslider--vertical',
+    fillClass: 'rangeslider__fill',
+    handleClass: 'rangeslider__handle',
+
+    // Callback function
+    onInit: function() {
+    },
+
+    // Callback function
+    onSlide: function(position, value) {
+      // only do anything if the value has changed
+      // this event also triggers once after onSlideEnd
+      if (curGame.currentFrameIdx != value) {
+        curGame.currentFrameIdx = value;
+        curGame.playback.playing = false;
+        if (!(curGame.currentFrameIdx >= curGame.lastFrame)) {
+          curGame.playback.finished = false;
+        }
+        curGame.updateState();
+        curGame.renderState();
+      }
+    },
+
+    // Callback function
+    onSlideEnd: function(position, value) {
+      curGame.currentFrameIdx = value;
+      curGame.playback.playing = true;
+      if (!(curGame.currentFrameIdx >= curGame.lastFrame)) {
+        curGame.playback.finished = false;
+      }
+      curGame.updateState();
+      curGame.renderState();
+    }
+  });
+
+  $("#slider_container")
+  .mouseover(function() {
+    $(this).stop().fadeTo(400, 0.8);
+  })
+  .mouseout(function() {
+    $(this).stop().fadeTo(400, 0);
+  });
+
+  $("#slider_container").fadeTo(1400, 0);
+}
 
 export function setupControlsBox() {
   $( "#controls" )

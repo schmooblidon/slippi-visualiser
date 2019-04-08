@@ -15,6 +15,7 @@ export default function Game(replay) {
   this.playback = new Playback(this);
   this.currentFrame = 0;
   this.currentFrameIdx = -123;
+  this.lastFrame = this.replay.metadata.lastFrame;
 
   this.stage = getStage(this.replay.settings.stageId);
   this.stageId = this.replay.settings.stageId;
@@ -31,7 +32,7 @@ export default function Game(replay) {
   this.matchTimer = 480;
 
   this.finishGame = function() {
-    this.finished = true;
+    this.playback.finished = true;
     drawGameFinishScreen(this);
   }
 

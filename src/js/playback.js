@@ -21,6 +21,7 @@ export default function Playback(game) {
     this.paused = false;
     this.finished = false;
     this.playing = true;
+    $('input[type="range"]').val(this.game.currentFrameIdx).change();
   }
 
   this.togglePause = function() {
@@ -33,6 +34,7 @@ export default function Playback(game) {
       this.game.currentFrameIdx++;
       this.game.updateState();
       this.game.renderState();
+      $('input[type="range"]').val(this.game.currentFrameIdx).change();
     }
   }
 
@@ -42,6 +44,7 @@ export default function Playback(game) {
     this.game.currentFrameIdx = Math.max(-123, this.game.currentFrameIdx-1);
     this.game.updateState();
     this.game.renderState();
+    $('input[type="range"]').val(this.game.currentFrameIdx).change();
   }
 }
 
@@ -50,6 +53,7 @@ function gameTick(){
   if (!curGame.playback.playing || curGame.playback.finished || curGame.playback.paused) return;
   curGame.currentFrameIdx++;
   curGame.updateState();
+  $('input[type="range"]').val(curGame.currentFrameIdx).change();
 };
 
 function renderTick() {
@@ -57,17 +61,3 @@ function renderTick() {
   if (!curGame.playback.playing || curGame.playback.finished) return;
   curGame.renderState();
 };
-
-function positionSliderChange(event, ui) {
-  curGame.currentFrameIdx = ui.value;
-}
-
-export function setupSlider() {
-  $(function() {
-    $("#position").slider({
-      min : -123,
-      max : 1000,
-      change: positionSliderChange
-    });
-  });
-}

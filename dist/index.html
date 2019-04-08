@@ -13,100 +13,111 @@
       </a>
     </div>
     <div id="display">
-    <canvas id="background1Canvas" class="gameCanvas" width="1200" height="750"></canvas>
-    <canvas id="background2Canvas" class="gameCanvas" width="1200" height="750"></canvas>
-    <canvas id="foreground1Canvas" class="gameCanvas" width="1200" height="750"></canvas>
-    <canvas id="foreground2Canvas" class="gameCanvas" width="1200" height="750"></canvas>
-    <canvas id="uiCanvas" class="gameCanvas" width="1200" height="750"></canvas>
-  </div>
-  <div id="controls">
-    <p>Enter = Toggle Pause</p>
-    <p>Left/Right = Frame Back/Forward</p>
-    <p>R = Restart</p>
-    <p>D = Debug</p>
-  </div>
-  <div id="debug">
-    <p><span id="currentFrame"></span></p>
-    <p>P1:
-      <span id="p1_charname"></span>
-      <span id="p1_action_id"></span> <span id="p1_action_name"></span> <span id="p1_action_counter"></span>
-    </p>
-    <p>
-      <span id="p1_input_lsX"></span> <span id="p1_input_lsY"></span>
-      <span id="p1_input_l_trigger"></span> <span id="p1_input_r_trigger"></span>
-    </p>
-    <p>P2:
-      <span id="p2_charname"></span>
-      <span id="p2_action_id"></span> <span id="p2_action_name"></span> <span id="p2_action_counter"></span>
-    </p>
-    <p>
-      <span id="p2_input_lsX"></span> <span id="p2_input_lsY"></span>
-      <span id="p2_input_l_trigger"></span> <span id="p2_input_r_trigger"></span>
-    </p>
-    <p>P3:
-      <span id="p3_charname"></span>
-      <span id="p3_action_id"></span> <span id="p3_action_name"></span> <span id="p3_action_counter"></span>
-    </p>
-    <p>
-      <span id="p3_input_lsX"></span> <span id="p3_input_lsY"></span>
-      <span id="p3_input_l_trigger"></span> <span id="p3_input_r_trigger"></span>
-    </p>
-    <p>P4:
-      <span id="p4_charname"></span>
-      <span id="p4_action_id"></span> <span id="p4_action_name"></span> <span id="p4_action_counter"></span>
-    </p>
-    <p>
-      <span id="p4_input_lsX"></span> <span id="p4_input_lsY"></span>
-      <span id="p4_input_l_trigger"></span> <span id="p4_input_r_trigger"></span>
-    </p>
-  </div>
-  <!--
-  <div id="info">
-    <div id="players">
-    <div class="playerDetails">
-      <iframe id="gamepadSVG0" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
-      <script> includeGamepadSVG("gamepadSVG0", 150, 150, false); </script>
-      <div class="playerTitle"><p>Player 1</p></div>
-      <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX0">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY0">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX0">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY0">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog0">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog0">0</span></p></div>
-      <div class="actionstatetext"><p><span id="actState0">??</span> <span id="stateNum0">?</span> <span id="face0">1</span></p></div>
-      <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY0">0</span></p></div>
-      <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY0">0</span></p></div>
-      <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY0">0</span></p></div>
+      <canvas id="background1Canvas" class="gameCanvas" width="1200" height="750"></canvas>
+      <canvas id="background2Canvas" class="gameCanvas" width="1200" height="750"></canvas>
+      <canvas id="foreground1Canvas" class="gameCanvas" width="1200" height="750"></canvas>
+      <canvas id="foreground2Canvas" class="gameCanvas" width="1200" height="750"></canvas>
+      <canvas id="uiCanvas" class="gameCanvas" width="1200" height="750"></canvas>
     </div>
-    <div class="playerDetails">
-      <iframe id="gamepadSVG1" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
-      <script> includeGamepadSVG("gamepadSVG1", 150, 150, false); </script>
-      <div class="playerTitle"><p>Player 2</p></div>
-      <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX1">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY1">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX1">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY1">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog1">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog1">0</span></p></div>
-      <div class="actionstatetext"><p><span id="actState1">??</span> <span id="stateNum1">?</span> <span id="face1">1</span></p></div>
-      <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY1">0</span></p></div>
-      <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY1">0</span></p></div>
-      <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY1">0</span></p></div>
+    <div id="slider_container">
+      <input
+        id="playback_slider"
+        type="range"
+        min="-123"                  
+        max="1000"                 
+        step="1"                  
+        value="-123"                
+        data-orientation="horizontal"
+      >
     </div>
-    <div class="playerDetails">
-      <iframe id="gamepadSVG2" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
-      <script> includeGamepadSVG("gamepadSVG2", 150, 150, false); </script>
-      <div class="playerTitle"><p>Player 3</p></div>
-      <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX2">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY2">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX2">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY2">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog2">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog2">0</span></p></div>
-      <div class="actionstatetext"><p><span id="actState2">??</span> <span id="stateNum2">?</span> <span id="face2">1</span></p></div>
-      <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY2">0</span></p></div>
-      <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY2">0</span></p></div>
-      <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY2">0</span></p></div>
+    <div id="controls">
+      <p>Enter = Toggle Pause</p>
+      <p>Left/Right = Frame Back/Forward</p>
+      <p>R = Restart</p>
+      <p>D = Debug</p>
     </div>
-    <div class="playerDetails">
-      <iframe id="gamepadSVG3" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
-      <script> includeGamepadSVG("gamepadSVG3", 150, 150, false); </script>
-      <div class="playerTitle"><p>Player 4</p></div>
-      <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX3">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY3">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX3">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY3">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog3">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog3">0</span></p></div>
-      <div class="actionstatetext"><p><span id="actState3">??</span> <span id="stateNum3">?</span> <span id="face3">1</span></p></div>
-      <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY3">0</span></p></div>
-      <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY3">0</span></p></div>
-      <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY3">0</span></p></div>
+    <div id="debug">
+      <p><span id="currentFrame"></span></p>
+      <p>P1:
+        <span id="p1_charname"></span>
+        <span id="p1_action_id"></span> <span id="p1_action_name"></span> <span id="p1_action_counter"></span>
+      </p>
+      <p>
+        <span id="p1_input_lsX"></span> <span id="p1_input_lsY"></span>
+        <span id="p1_input_l_trigger"></span> <span id="p1_input_r_trigger"></span>
+      </p>
+      <p>P2:
+        <span id="p2_charname"></span>
+        <span id="p2_action_id"></span> <span id="p2_action_name"></span> <span id="p2_action_counter"></span>
+      </p>
+      <p>
+        <span id="p2_input_lsX"></span> <span id="p2_input_lsY"></span>
+        <span id="p2_input_l_trigger"></span> <span id="p2_input_r_trigger"></span>
+      </p>
+      <p>P3:
+        <span id="p3_charname"></span>
+        <span id="p3_action_id"></span> <span id="p3_action_name"></span> <span id="p3_action_counter"></span>
+      </p>
+      <p>
+        <span id="p3_input_lsX"></span> <span id="p3_input_lsY"></span>
+        <span id="p3_input_l_trigger"></span> <span id="p3_input_r_trigger"></span>
+      </p>
+      <p>P4:
+        <span id="p4_charname"></span>
+        <span id="p4_action_id"></span> <span id="p4_action_name"></span> <span id="p4_action_counter"></span>
+      </p>
+      <p>
+        <span id="p4_input_lsX"></span> <span id="p4_input_lsY"></span>
+        <span id="p4_input_l_trigger"></span> <span id="p4_input_r_trigger"></span>
+      </p>
     </div>
-  </div>-->
-  <script src="main.js"></script>
-  <script>
-    start();
-  </script>
+    <!--
+    <div id="info">
+      <div id="players">
+      <div class="playerDetails">
+        <iframe id="gamepadSVG0" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
+        <script> includeGamepadSVG("gamepadSVG0", 150, 150, false); </script>
+        <div class="playerTitle"><p>Player 1</p></div>
+        <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX0">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY0">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX0">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY0">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog0">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog0">0</span></p></div>
+        <div class="actionstatetext"><p><span id="actState0">??</span> <span id="stateNum0">?</span> <span id="face0">1</span></p></div>
+        <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY0">0</span></p></div>
+        <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY0">0</span></p></div>
+        <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX0">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY0">0</span></p></div>
+      </div>
+      <div class="playerDetails">
+        <iframe id="gamepadSVG1" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
+        <script> includeGamepadSVG("gamepadSVG1", 150, 150, false); </script>
+        <div class="playerTitle"><p>Player 2</p></div>
+        <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX1">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY1">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX1">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY1">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog1">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog1">0</span></p></div>
+        <div class="actionstatetext"><p><span id="actState1">??</span> <span id="stateNum1">?</span> <span id="face1">1</span></p></div>
+        <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY1">0</span></p></div>
+        <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY1">0</span></p></div>
+        <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX1">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY1">0</span></p></div>
+      </div>
+      <div class="playerDetails">
+        <iframe id="gamepadSVG2" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
+        <script> includeGamepadSVG("gamepadSVG2", 150, 150, false); </script>
+        <div class="playerTitle"><p>Player 3</p></div>
+        <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX2">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY2">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX2">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY2">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog2">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog2">0</span></p></div>
+        <div class="actionstatetext"><p><span id="actState2">??</span> <span id="stateNum2">?</span> <span id="face2">1</span></p></div>
+        <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY2">0</span></p></div>
+        <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY2">0</span></p></div>
+        <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX2">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY2">0</span></p></div>
+      </div>
+      <div class="playerDetails">
+        <iframe id="gamepadSVG3" class="gamepadSVG" scrolling="no" height="150" frameborder="0" width="232.5" style="display:none;"></iframe>
+        <script> includeGamepadSVG("gamepadSVG3", 150, 150, false); </script>
+        <div class="playerTitle"><p>Player 4</p></div>
+        <div class="inputs"><p>Lstick</p></div><div class="inputs"><p>X: <span id="lsAxisX3">0</span></p></div><div class="inputs"><p>Y: <span id="lsAxisY3">0</span></p></div><div class="inputs"><p>Cstick</p></div><div class="inputs"><p>X: <span id="csAxisX3">0</span></p></div><div class="inputs"><p>Y: <span id="csAxisY3">0</span></p></div><div class="inputs"><p>Shoulders</p></div><div class="inputs"><p>L: <span id="lAnalog3">0</span></p></div><div class="inputs"><p>R: <span id="rAnalog3">0</span></p></div>
+        <div class="actionstatetext"><p><span id="actState3">??</span> <span id="stateNum3">?</span> <span id="face3">1</span></p></div>
+        <div class="velocities"><p>CharVel</p></div><div class="velocities"><p>X: <span id="velocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="velocityY3">0</span></p></div>
+        <div class="velocities"><p>KBVel</p></div><div class="velocities"><p>X: <span id="kvelocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="kvelocityY3">0</span></p></div>
+        <div class="velocities"><p>Position</p></div><div class="velocities"><p>X: <span id="pvelocityX3">0</span></p></div><div class="velocities"><p>Y: <span id="pvelocityY3">0</span></p></div>
+      </div>
+    </div>-->
+    <script src="main.js"></script>
+    <script>
+      start();
+    </script>
   </body>
 </html>
