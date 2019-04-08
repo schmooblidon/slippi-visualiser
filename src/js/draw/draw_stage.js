@@ -22,10 +22,10 @@ for (let i = 0; i < 5; i++) {
 let ang = 0;
 let backgroundType = 1;
 
-const randall = [new Image(),new Image(),new Image()];
+/*const randall = [new Image(),new Image(),new Image()];
 randall[0].src = "assets/stage/randall1.png";
 randall[1].src = "assets/stage/randall2.png";
-randall[2].src = "assets/stage/randall3.png";
+randall[2].src = "assets/stage/randall3.png";*/
 let randallTimer = 0;
 
 export function drawStageInit(stage) {
@@ -156,7 +156,7 @@ export function drawStage(stage) {
     if (randallTimer === 30){
       randallTimer = 0;
     }
-    bg2.drawImage(randall[Math.floor(randallTimer/10)],(stage.platform[0][0].x * stage.scale) + stage.offset.x-20, (stage.platform[0][0].y * -stage.scale) + stage.offset.y-20,100,100);
+    //bg2.drawImage(randall[Math.floor(randallTimer/10)],(stage.platform[0][0].x * stage.scale) + stage.offset.x-20, (stage.platform[0][0].y * -stage.scale) + stage.offset.y-20,100,100);
   }
   else if (stage.movingPlats !== null && stage.movingPlats !== undefined && stage.movingPlats.length !== 0) {
     fg2.strokeStyle = "#4794c6";
