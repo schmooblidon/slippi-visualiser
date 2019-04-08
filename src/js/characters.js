@@ -37,6 +37,10 @@ export const externalCharacterIDs = {
   //0x20   // Popo
 }
 
+export function characterExists(val) {
+  return !(externalCharacterIDs[val] == null);
+}
+
 export const characters = {
 
   "FALCON" : {

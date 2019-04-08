@@ -44,3 +44,7 @@ export function getStage(val) {
   }
   return vsstages[stageIds[val]];
 }
+
+export function stageExists(val) {
+  return !(stageIds[val] == null);
+}
