@@ -91,6 +91,8 @@ export function drawStageInit(stage) {
     fg1.closePath();
     fg1.stroke();
   }
+
+  stage.drawInit(fg1);
 };
 
 const wallColour = ["rgb(255,0,40)","rgb(0,255,255)","rgb(125,125,125)","rgb(125,50,255)"];
@@ -148,8 +150,9 @@ function drawDamageLine(type,can,stage){
   }
 }
 
-export function drawStage(stage) {
+export function drawStage(stage, frame) {
   calculateDamageWallColours();
+  stage.draw(fg2, frame);
   if (stage.name === "ystory") {
     // Randall
     randallTimer++;

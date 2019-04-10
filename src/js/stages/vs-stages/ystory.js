@@ -35,44 +35,117 @@ export default {
   offset: new Vec2D(600, 430),
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], null]], [[null,null],[null,null],[null,null],[null,null] ]],
   movingPlats: [0],
-  movingPlatforms: function () {
-    const plat = this.platform[0];
-    let move = [0, 0];
-    if (plat[0].x <= -103.6 && plat[0].y > -33.25) {
-      plat[0].x = -103.6;
-      plat[1].x = -91.7;
-      plat[0].y -= 0.354845;
-      plat[1].y -= 0.354845;
-      move = [0, -0.354845];
+  randall : {
+    path : [new Vec2D(-95.9, -33.25), 
+      // bottom right corner
+      new Vec2D(95.69, -33.25), new Vec2D(96.72, -32.69), new Vec2D(97.3, -31.675),
+
+      //top right corner
+      new Vec2D(97.3, -15.225), new Vec2D(96.72, -14.21), new Vec2D(95.69, -13.65),
+
+      //top left corner
+      new Vec2D(-96.04, -13.65), new Vec2D(-97.07, -14.21), new Vec2D(-97.65, -15.225),
+
+      //bottom left corner
+      new Vec2D(-97.65, -31.675), new Vec2D(-97.07, -32.69), new Vec2D(-96.04, -33.25),
+
+      new Vec2D(-95.9, -33.25)
+    ],
+    /*Corner offsets
+    +1.61, 0
+    +0.58, -0.56
+    -1.575*/
+    start : new Vec2D(-95.9, -33.25),
+    width : 11.9, //5.95 * 2
+    speed : 0.354843,
+    // -0.354859
+    left_edge : -97.65,
+    right_edge : 97.3,
+    top_edge : -13.65,
+    bottom_edge : -33.25,
+
+    path_offset : -5.13,
+
+    total_distance : 0,
+    segments : [
+
+    ]
+  },
+  drawInit: function(can) {
+    can.strokeStyle = "rgba(255,255,255,0.3)";
+    can.lineWidth = 1;
+    can.beginPath();
+    var o = this.randall.path_offset;
+    var p1 = this.randall.path[0];
+    can.moveTo((p1.x * this.scale) + this.offset.x, ((p1.y+o) * -this.scale) + this.offset.y);
+    for (var i=1;i<this.randall.path.length;i++) {
+      var p = this.randall.path[i];
+      can.lineTo((p.x * this.scale) + this.offset.x, ((p.y+o) * -this.scale) + this.offset.y);
     }
-    if (plat[0].x >= 91.35 && plat[0].y < -13.65) {
-      plat[0].x = 91.35;
-      plat[1].x = 103.25;
-      plat[0].y += 0.354845;
-      plat[1].y += 0.354845;
-      move = [0, 0.354845];
+    can.lineTo((p1.x * this.scale) + this.offset.x, ((p1.y+o) * -this.scale) + this.offset.y);
+    can.closePath();
+    can.stroke();
+
+    // RANDALL SEGMENT SETUP!
+
+    var totalDist = 0;
+    for (var i=0;i<this.randall.path.length-1;i++) {
+      var p1 = this.randall.path[i];
+      var p2 = this.randall.path[(i == (this.randall.path.length - 1)) ? 0 : i+1];
+      var distsqr = Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2);
+      totalDist += Math.sqrt(distsqr);
     }
-    if (plat[0].y <= -33.25) {
-      plat[0].y = -33.25;
-      plat[1].y = -33.25;
-      plat[0].x += 0.354845;
-      plat[1].x += 0.354845;
-      move = [0.354845, 0];
-    }
-    if (plat[0].y >= -13.65) {
-      plat[0].y = -13.65;
-      plat[1].y = -13.65;
-      plat[0].x -= 0.354845;
-      plat[1].x -= 0.354845;
-      move = [-0.354845, 0];
+    this.total_distance = totalDist;
+
+    totalDist = 0;
+    for (var i=0;i<this.randall.path.length-1;i++) {
+      var p1 = this.randall.path[i];
+      var p2 = this.randall.path[(i == (this.randall.path.length - 1)) ? 0 : i+1];
+      var dist_vec = new Vec2D(p2.x - p1.x, p2.y - p1.y);
+      var dist = Math.sqrt(Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2));
+      var start_fract = totalDist / this.total_distance;
+      totalDist += dist;
+      var end_fract = totalDist / this.total_distance;
+      this.randall.segments[i] = {
+        start : new Vec2D(p1.x, p1.y),
+        end : new Vec2D(p2.x, p2.y),
+        dist : dist_vec,
+        start_fraction : start_fract,
+        end_fraction : end_fract,
+        total_fraction : end_fract - start_fract
+      }
     }
 
-    /*for (let j = 0; j < 4; j++) {
-      if (player[j].phys.onSurface[0] === 1 && player[j].phys.onSurface[1] === 0 && player[j].phys.grounded) {
-        player[j].phys.pos.x += move[0];
-        //player[j].phys.pos.y += move[1];
-        player[j].phys.pos.y = plat[0].y;
+  },
+  draw: function (can, frame) {
+
+    // FIND CURRENT RANDALL POSITION
+    var pos = new Vec2D(0,0);
+    var fract = ((frame + 123) % 1200) / 1200;
+
+    for (var i=0;i<this.randall.segments.length;i++) {
+      var seg = this.randall.segments[i];
+      if (fract >= seg.start_fraction && fract <= seg.end_fraction) {
+        var fract_along = (fract - seg.start_fraction) / seg.total_fraction;
+        pos.x = seg.start.x + seg.dist.x * fract_along;
+        pos.y = seg.start.y + seg.dist.y * fract_along;
+        break;
       }
-    }*/
+    }
+
+    can.strokeStyle = "#4794c6";
+    can.fillStyle = "rgba(255,255,255,0.3)";
+    can.lineWidth = 2;
+    can.beginPath();
+    can.moveTo(((pos.x - this.randall.width/2) * this.scale) + this.offset.x, ((pos.y) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x + this.randall.width/2) * this.scale) + this.offset.x, ((pos.y) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x + this.randall.width/2) * this.scale) + this.offset.x, ((pos.y + this.randall.path_offset) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x + this.randall.width/4) * this.scale) + this.offset.x, ((pos.y + this.randall.path_offset * 2) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x - this.randall.width/4) * this.scale) + this.offset.x, ((pos.y + this.randall.path_offset * 2) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x - this.randall.width/2) * this.scale) + this.offset.x, ((pos.y + this.randall.path_offset) * -this.scale) + this.offset.y);
+    can.lineTo(((pos.x - this.randall.width/2) * this.scale) + this.offset.x, ((pos.y) * -this.scale) + this.offset.y);
+    can.closePath();
+    can.fill();
+    can.stroke();
   }
 };

@@ -40,7 +40,7 @@ export default function Game(replay) {
     if (this.playback.finished) return;
     clearScreen();
     drawBackground();
-    drawStage(this.stage);
+    drawStage(this.stage, this.currentFrameIdx);
     for (var i = 0; i < this.playerAmount; i++) {
       drawPlayer(this, i);
     }

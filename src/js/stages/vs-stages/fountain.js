@@ -110,6 +110,8 @@ export default {
   offset: new Vec2D(600, 450),
   connected : [ [[null, ["g",1]], [["g",0], ["g",2]], [["g",1], ["g",3]],[["g",2], ["g",4]], [["g",3], null]], [[null,null],[null,null],[null,null]]],
   movingPlats: [1,2],
+  drawInit: function(can){},
+  draw: function(can, frame){},
   movingPlatforms: function () {
     /*if (starting) { // resets the stage
       platformStates = [ { state : "moving", timer : 0, destination : 22.125 }

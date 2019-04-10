@@ -27,6 +27,6 @@ export default {
   scale: 4.2,
   offset: new Vec2D(600, 500),
   movingPlats: [],
-  movingPlatforms: function () {
-  }
+  drawInit: function(can){},
+  draw: function(can, frame){}
 };
