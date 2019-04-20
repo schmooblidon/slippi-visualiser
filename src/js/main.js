@@ -19,7 +19,6 @@ export let compatibilityText = ["",""];
 
 function earlySetup() {
   $("#display").show();
-  $("#slider_container").hide();
   setupLayers();
   resize();
   drawBackgroundInit();
@@ -46,8 +45,8 @@ function start (event){
   
   //setupControlsBox();
   if (compatible) {
-    $("#slider_container").show();
     setupControls();
+    $("#slider_container").show();
   }
 
   curGame.playback.start();

@@ -64,6 +64,7 @@ body {
   bottom:0px;
   z-index:101;
   opacity: 0.8;
+  display:none;
 }
     
 .rangeslider,
