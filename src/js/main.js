@@ -29,6 +29,9 @@ function earlySetup() {
 }
 
 function start (event){
+  // if game is already playing, exit
+  if (curGame != null) return;
+
   $("#loading_anim").fadeOut(200);
   resize();
   const slp_replay = event.data
