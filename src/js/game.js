@@ -4,15 +4,23 @@ import { getStage } from "./stages/stages";
 import Vec2D from "./utils/Vec2D";
 import { clearScreen } from "./draw/draw";
 import { drawPlayer } from "./draw/draw_player";
-import { drawGameFinishScreen, drawOverlay } from "./draw/draw_ui";
+import { drawGameFinishScreen, drawOverlay, drawErrorText } from "./draw/draw_ui";
 import { drawBackground, drawStage } from "./draw/draw_stage";
 import { drawDebug } from "./draw/debug";
 import { displayDebug } from "./main";
 
-export default function Game(replay) {
+export default function Game(replay, compatible, compatibilityText) {
 
   this.replay = replay;
+  this.compatible = compatible;
+  this.compatibilityText = compatibilityText;
   this.playback = new Playback(this);
+  this.renderBGOnly = function() {
+    clearScreen();
+    drawBackground();
+    drawErrorText(this.compatibilityText);
+  }
+  if (!this.compatible) return;
   this.currentFrame = 0;
   this.currentFrameIdx = -123;
   this.lastFrame = this.replay.metadata.lastFrame;
