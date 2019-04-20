@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx eslint src && npx webpack"
+    "build-lint": "npx eslint src && npx webpack",
+    "build": "npx webpack"
   },
   "repository": {
     "type": "git",
