@@ -8,7 +8,16 @@ export let curGame = null;
 
 export let displayDebug = false;
 
-function start (slp_replay){
+function isObj(obj) {
+  return obj === Object(obj) && Object.prototype.toString.call(obj) !== '[object Array]';
+}
+
+function start(event){
+  const slp_replay = event.data
+  if (!isObj(slp_replay)) {
+    return;
+  }
+
   if (!isCompatible(slp_replay)) {
     return;
   }
@@ -37,4 +46,4 @@ function isCompatible(slp_replay) {
   return true;
 }
 
-window.start = start;
+window.addEventListener('message', start);

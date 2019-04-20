@@ -62,7 +62,7 @@ export function drawArrayPathCompress (can, col, face, tX, tY, path, scaleX, sca
   can.rotate(rotate);
 
   can.fillStyle = col;
-  can.lineWidth = 1;
+  can.lineWidth = 3;
   can.strokeStyle = col;
   can.beginPath();
   // for each shape
