@@ -127,3 +127,61 @@ export function drawGameFinishScreen(game) {
   fg2.fillText(text, 600, 470 / textScale);
   fg2.restore();
 }
+
+export function drawLoading() {
+  fg2.save();
+  fg2.textAlign = "center";
+  var text = "Loading";
+  var size = 150;
+  var yoff = -50;
+  var textScale = 1;
+  var textGrad = fg2.createLinearGradient(0, 200+ 70 +yoff, 0, 520- 30 +yoff);
+  textGrad.addColorStop(0, "black");
+  textGrad.addColorStop(0.5, "black");
+  textGrad.addColorStop(0.7, "rgb(21, 51, 180)");
+  textGrad.addColorStop(1, "rgb(71, 94, 250)");
+  fg2.scale(1, textScale);
+  fg2.fillStyle = textGrad;
+  fg2.lineWidth = 30;
+  fg2.strokeStyle = "black";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale - 30 +yoff);
+  fg2.lineWidth = 15;
+  fg2.strokeStyle = "white";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale - 30 +yoff);
+  fg2.font = "900 " + size + "px Arial";
+  fg2.fillText(text, 600, 470 / textScale - 30 +yoff);
+  fg2.restore();
+}
+
+export function drawErrorText(txtArray) {
+  var y = (txtArray.length-1) * -50 + 50; 
+  for (var i=0;i<txtArray.length;i++) {
+    drawErrorTextLine(txtArray[i], y+i*100);
+  }
+}
+
+function drawErrorTextLine(text, yOff) {
+  fg2.save();
+  fg2.textAlign = "center";
+  var size = 100;
+  var textScale = 1;
+  var textGrad = fg2.createLinearGradient(0, 250+yOff, 0, 420+yOff);
+  textGrad.addColorStop(0, "black");
+  textGrad.addColorStop(0.4, "black");
+  textGrad.addColorStop(0.7, "rgb(167, 27, 40)");
+  textGrad.addColorStop(1, "rgb(255, 31, 52)");
+  fg2.scale(1, textScale);
+  fg2.fillStyle = textGrad;
+  fg2.lineWidth = 10;
+  fg2.strokeStyle = "black";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale -100 +yOff);
+  fg2.lineWidth = 5;
+  fg2.strokeStyle = "white";
+  fg2.font = "900 " + size + "px Arial";
+  fg2.strokeText(text, 600, 470 / textScale-100 +yOff);
+  fg2.font = "900 " + size + "px Arial";
+  fg2.fillText(text, 600, 470 / textScale-100 +yOff);
+} 

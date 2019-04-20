@@ -9,11 +9,15 @@ export default function Playback(game) {
 
   this.start = function() {
     drawBackgroundInit();
-    drawStageInit(this.game.stage);
-
-    this.playing = true;
-    gameTick();
-    renderTick();
+    if (this.game.compatible) {
+      drawStageInit(this.game.stage);
+      this.playing = true;
+      gameTick();
+      renderTick();
+    }
+    else {
+      renderBGOnlyTick();
+    }
   }
 
   this.restart = function() {
@@ -60,3 +64,8 @@ function renderTick() {
   if (!curGame.playback.playing || curGame.playback.finished) return;
   curGame.renderState();
 };
+
+function renderBGOnlyTick() {
+  window.requestAnimationFrame(renderBGOnlyTick);
+  curGame.renderBGOnly();
+}
