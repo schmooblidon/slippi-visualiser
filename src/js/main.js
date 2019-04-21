@@ -69,4 +69,5 @@ function isCompatible(slp_replay) {
 }
 
 window.addEventListener('message', start);
+window.start = start;
 window.earlySetup = earlySetup;
